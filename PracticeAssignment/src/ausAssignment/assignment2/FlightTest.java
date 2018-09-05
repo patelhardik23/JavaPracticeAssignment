@@ -1,62 +1,195 @@
 package ausAssignment.assignment2;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 public class FlightTest {
 
 	/*
-	Method to Read, validate and store data for N flights
-	Method to Calculate and store discounted price for all flights
-	Method to Display all flights
-	Method to Search a flight by number
-	Method to Display all flights with the lowest flight price
-	Method to Sort and display sorted flights
-	Method to Exit from the application*/
-	
-	public static void main(String[] args)
-	{
-		Scanner in = new Scanner(System.in);
-		final int N = 9;
-		String flightDepartCity = new String();
-		int [] flightNo = new int[N];
-		int [] flightDistance = new int[N];
-		double flightPrice = 0, discountedFlightPrice =0;
-		int choice =0; 
-		do{
-			
-			System.out.println("Welcome to Flight Management System. Enter your choice from below listed options!!!");
-			System.out.println("1. Read, validate and store data for N flights");
-			System.out.println("2. Calculate and store discounted price for all flights");
+	 * Method to Read, validate and store data for N flights Method to Calculate
+	 * and store discounted price for all flights Method to Display all flights
+	 * Method to Search a flight by number Method to Display all flights with
+	 * the lowest flight price Method to Sort and display sorted flights Method
+	 * to Exit from the application
+	 */
+
+	static List<Flight> flights;
+
+	static final int N = 2;
+
+	static Scanner in = new Scanner(System.in);
+
+	public static void main(String[] args) {
+
+		int choice = 0;
+		do {
+
+			System.out
+					.println("\n----------------------------------------------------------------------------------");
+			System.out
+					.println("Welcome to Flight Management System. Enter your choice from below listed options!!!");
+			System.out
+					.println("1. Read, validate and store data for N flights");
+			System.out
+					.println("2. Calculate and store discounted price for all flights");
 			System.out.println("3. Display all flights");
 			System.out.println("4. Search a flight by number");
-			System.out.println("5. Display all flights with the lowest flight price");
+			System.out
+					.println("5. Display all flights with the lowest flight price");
 			System.out.println("6. Sort and display sorted flights");
 			System.out.println("7. Exit from the application");
+			System.out.print("Enter you choice : ");
 			choice = in.nextInt();
-			
-			switch(choice){
+
+			switch (choice) {
 			case 1:
 				System.out.print("Read ");
+				flights = new ArrayList<Flight>();
+				readFlightData();
 				break;
 			case 2:
-				System.out.print("Calculate ");
+				System.out.print("Enter Discount % on Flight : ");
+				double discountPercentage = in.nextDouble();
+				calculateDiscountedPrice(discountPercentage);
 				break;
 			case 3:
-				System.out.print("Display ");
+				displayFlightData();
 				break;
 			case 4:
 				System.out.print("Search ");
+				System.out.print("Enter Flight Number : ");
+				int flightNumber = in.nextInt();
+				if (searchFlightByNumber(flightNumber) == false)
+					System.out.println("flight is not found");
 				break;
 			case 5:
 				System.out.print("Display lowest price ");
+				displayLowestFlightPrice();
 				break;
 			case 6:
 				System.out.print("Sort and display ");
+				displaySortedFlights();
 				break;
 			case 7:
-				System.out.print("exit");
+				System.out.print("Student 123456789. Thnak you.");
+				System.out.print("Exit from the application");
 				break;
 			}
-		}while(choice != 7);		
+		} while (choice != 7);
+		in.close();
+	}
+
+	private static void displayLowestFlightPrice() {
+		System.out.println("Flights sorted by Departure city!!");
+
+		Collections.sort(flights, Flight.priceComparator);
+
+		System.out
+				.println("Flight Departure City | Flight Number | Flight Distance | Flight Price | Discounted Flight Price ");
+
+		// for(Flight f : flights)
+		// {
+		// System.out.println(f.getFlightDepartCity() +" | "+f.getFlightNo() +
+		// " | " + f.getFlightDistance()+"|"+
+		// f.getFlightPrice()+"|"+f.getDiscountedFlightPrice());
+		// }
+
+		for (int i = 0; i < flights.size(); i++) {
+			Flight f = flights.get(i);
+			double minvalue = flights.get(0).getFlightPrice();
+			if (minvalue == f.getFlightPrice()) {
+				System.out.println(f.getFlightDepartCity() + " | "
+						+ f.getFlightNo() + " | " + f.getFlightDistance() + "|"
+						+ f.getFlightPrice() + "|"
+						+ f.getDiscountedFlightPrice());
+			}
+		}
+	}
+
+	private static void displaySortedFlights() {
+		System.out.println("Flights sorted by Departure city!!");
+
+		Collections.sort(flights, Flight.nameComparator);
+
+		System.out
+				.println("Flight Departure City | Flight Number | Flight Distance | Flight Price | Discounted Flight Price ");
+
+		for (Flight f : flights) {
+			System.out.println(f.getFlightDepartCity() + " | "
+					+ f.getFlightNo() + " | " + f.getFlightDistance() + "|"
+					+ f.getFlightPrice() + "|" + f.getDiscountedFlightPrice());
+		}
+	}
+
+	private static void calculateDiscountedPrice(double discountPercentage) {
+		double discountedPrice;
+		for (int i = 0; i < N; i++) {
+			Flight f = flights.get(i);
+			discountedPrice = f.getFlightPrice()
+					- (f.getFlightPrice() * discountPercentage) / 100;
+			f.setDiscountedFlightPrice(discountedPrice);
+		}
+	}
+
+	private static boolean searchFlightByNumber(int flightNumber) {
+		System.out
+				.println("Flight Departure City | Flight Number | Flight Distance | Flight Price | Discounted Flight Price ");
+		for (Flight f : flights) {
+			if (f.verifyFlightNumber(flightNumber) != null) {
+				System.out.println(f.getFlightDepartCity() + " | "
+						+ f.getFlightNo() + " | " + f.getFlightDistance() + "|"
+						+ f.getFlightPrice() + "|"
+						+ f.getDiscountedFlightPrice());
+				
+				return true;
+			}
+		}
+
+		/*for (int i = 0; i < N; i++) {
+			Flight f = flights.get(i);
+
+			if (f.getFlightNo() == flightNumber) {
+				return true;
+			}
+		}*/
+		
+		return false;
+	}
+
+	private static void displayFlightData() {
+		System.out
+				.println("Flight Departure City | Flight Number | Flight Distance | Flight Price | Discounted Flight Price ");
+
+		for (int i = 0; i < N; i++) {
+			Flight f = flights.get(i);
+			System.out.println(f.getFlightDepartCity() + " | "
+					+ f.getFlightNo() + " | " + f.getFlightDistance() + "|"
+					+ f.getFlightPrice() + "|" + f.getDiscountedFlightPrice());
+		}
+	}
+
+	private static void readFlightData() {
+		System.out.println("Please Enter Flight " + N + " Details ");
+
+		for (int i = 0; i < N; i++) {
+			System.out.println("Flight : " + (i + 1));
+			Flight f = new Flight();
+
+			System.out.print("Please Enter Flight Number : ");
+			f.setFlightNo(in.nextInt());
+
+			System.out.print("Please Enter Flight Departure City : ");
+			f.setFlightDepartCity(in.next());
+
+			System.out.print("Please Enter Flight Travel Distance : ");
+			f.setFlightDistance(in.nextInt());
+
+			System.out.print("Please Enter Flight Ticket Price : ");
+			f.setFlightPrice(in.nextDouble());
+
+			flights.add(f);
+		}
 	}
 }
