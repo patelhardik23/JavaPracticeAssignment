@@ -7,14 +7,6 @@ import java.util.Scanner;
 
 public class FlightTest {
 
-	/*
-	 * Method to Read, validate and store data for N flights Method to Calculate
-	 * and store discounted price for all flights Method to Display all flights
-	 * Method to Search a flight by number Method to Display all flights with
-	 * the lowest flight price Method to Sort and display sorted flights Method
-	 * to Exit from the application
-	 */
-
 	static List<Flight> flights;
 
 	static final int N = 2;
@@ -74,11 +66,18 @@ public class FlightTest {
 				break;
 			case 7:
 				System.out.print("Student 123456789. Thnak you.");
-				System.out.print("Exit from the application");
+				exitFromApplication();
 				break;
 			}
 		} while (choice != 7);
 		in.close();
+	}
+
+	private static void exitFromApplication() {
+		// TODO Auto-generated method stub
+		System.out.println("Exit from the application");
+		System.exit(0);
+
 	}
 
 	private static void displayLowestFlightPrice() {
@@ -88,13 +87,6 @@ public class FlightTest {
 
 		System.out
 				.println("Flight Departure City | Flight Number | Flight Distance | Flight Price | Discounted Flight Price ");
-
-		// for(Flight f : flights)
-		// {
-		// System.out.println(f.getFlightDepartCity() +" | "+f.getFlightNo() +
-		// " | " + f.getFlightDistance()+"|"+
-		// f.getFlightPrice()+"|"+f.getDiscountedFlightPrice());
-		// }
 
 		for (int i = 0; i < flights.size(); i++) {
 			Flight f = flights.get(i);
@@ -142,19 +134,10 @@ public class FlightTest {
 						+ f.getFlightNo() + " | " + f.getFlightDistance() + "|"
 						+ f.getFlightPrice() + "|"
 						+ f.getDiscountedFlightPrice());
-				
+
 				return true;
 			}
 		}
-
-		/*for (int i = 0; i < N; i++) {
-			Flight f = flights.get(i);
-
-			if (f.getFlightNo() == flightNumber) {
-				return true;
-			}
-		}*/
-		
 		return false;
 	}
 
@@ -172,13 +155,24 @@ public class FlightTest {
 
 	private static void readFlightData() {
 		System.out.println("Please Enter Flight " + N + " Details ");
-
+		boolean flag = false;
+		int no;
+		double price;
 		for (int i = 0; i < N; i++) {
 			System.out.println("Flight : " + (i + 1));
 			Flight f = new Flight();
-
 			System.out.print("Please Enter Flight Number : ");
-			f.setFlightNo(in.nextInt());
+			do {
+				no = in.nextInt();
+				if (no >= 1111 && no <= 9999) {
+					f.setFlightNo(no);
+					flag = true;
+				} else {
+					System.out
+							.println("Please enter value between 1111 to 9999");
+					flag = false;
+				}
+			} while (flag == false);
 
 			System.out.print("Please Enter Flight Departure City : ");
 			f.setFlightDepartCity(in.next());
@@ -187,8 +181,17 @@ public class FlightTest {
 			f.setFlightDistance(in.nextInt());
 
 			System.out.print("Please Enter Flight Ticket Price : ");
-			f.setFlightPrice(in.nextDouble());
 
+			do {
+				price = in.nextDouble();
+				if (price >= 9 && price <= 900) {
+					f.setFlightPrice(price);
+					flag = true;
+				} else {
+					System.out.println("Please enter value between 9 to 900");
+					flag = false;
+				}
+			} while (flag == false);
 			flights.add(f);
 		}
 	}
