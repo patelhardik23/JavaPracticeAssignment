@@ -9,7 +9,7 @@ public class FlightTest {
 
 	static List<Flight> flights;
 
-	static final int N = 2;
+	static final int N = 9;
 
 	static Scanner in = new Scanner(System.in);
 
@@ -39,7 +39,8 @@ public class FlightTest {
 			case 1:
 				System.out.print("Read ");
 				flights = new ArrayList<Flight>();
-				readFlightData();
+				//writeFlightData();
+				 readFlightData();
 				break;
 			case 2:
 				System.out.print("Enter Discount % on Flight : ");
@@ -103,7 +104,21 @@ public class FlightTest {
 	private static void displaySortedFlights() {
 		System.out.println("Flights sorted by Departure city!!");
 
-		Collections.sort(flights, Flight.nameComparator);
+		// Collections.sort(flights, Flight.nameComparator);
+		int n = flights.size();
+
+		for (int i = 0; i < n - 1; i++) {
+			for (int j = i + 1; j < n; j++) {
+				if ((flights.get(i).getFlightDepartCity()).compareTo(flights
+						.get(j).getFlightDepartCity()) < 0) {
+					Flight temp = flights.get(i);
+					flights.add(i, flights.get(j));
+					flights.remove(i + 1);
+					flights.add(j, temp);
+					flights.remove(j + 1);
+				}
+			}
+		}
 
 		System.out
 				.println("Flight Departure City | Flight Number | Flight Distance | Flight Price | Discounted Flight Price ");
@@ -151,6 +166,25 @@ public class FlightTest {
 					+ f.getFlightNo() + " | " + f.getFlightDistance() + "|"
 					+ f.getFlightPrice() + "|" + f.getDiscountedFlightPrice());
 		}
+	}
+
+	private static void writeFlightData() {
+		Flight flight = new Flight();
+
+		flight.setFlightNo(1212);
+		flight.setFlightDepartCity("XYZ");
+		flight.setFlightDistance(120);
+		flight.setFlightPrice(150);
+		flights.add(flight);
+
+		flight = new Flight();
+
+		flight.setFlightNo(1312);
+		flight.setFlightDepartCity("ABC");
+		flight.setFlightDistance(160);
+		flight.setFlightPrice(190);
+		flights.add(flight);
+
 	}
 
 	private static void readFlightData() {
