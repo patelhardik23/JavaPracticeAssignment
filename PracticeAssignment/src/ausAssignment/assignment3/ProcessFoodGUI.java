@@ -3,10 +3,14 @@ package ausAssignment.assignment3;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 
 public class ProcessFoodGUI {
+	static List<ProcessedFood> foodList = new ArrayList<ProcessedFood>();
+	static List<Nutrient> nutrientList = new ArrayList<Nutrient>();
 	ProcessFoodGUI() {
 
 		// String userName;
@@ -154,8 +158,20 @@ public class ProcessFoodGUI {
 	}
 
 	public static void main(String args[]) {
-		new ProcessFoodGUI();
-		String fileName = "/home/hardikpatel/TEST/Assignment_1_data.csv";
+		
+		String fileName ="ausAssignment3_data.csv";
 		new DataFile(fileName);
+	
+		System.out.println("list created");
+		for (ProcessedFood pf : foodList) {
+			System.out.println(pf);
+			System.out.println("done");
+		}
+		for (Nutrient nl : nutrientList) {
+			System.out.println(nl);
+			System.out.println("doneok");
+		}
+	//	new ProcessFoodGUI();
+		
 	}
 }
