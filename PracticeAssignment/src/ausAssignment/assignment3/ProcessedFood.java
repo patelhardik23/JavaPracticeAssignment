@@ -1,21 +1,25 @@
 package ausAssignment.assignment3;
 
-public class ProcessedFood extends Item{
+import java.util.List;
+
+public class ProcessedFood extends Item {
 
 	private String brandName;
 	private Integer serveSize;
 	private String unit;
-	
+	private List<Nutrient> nutrient;
+
 	public ProcessedFood() {
 	}
-	
-	public ProcessedFood(String name, String category, String brandName, Integer serveSize, String unit) {
-		super(name,category);
+
+	public ProcessedFood(String brandName, Integer serveSize, String unit, List<Nutrient> nutrient) {
+		super();
 		this.brandName = brandName;
 		this.serveSize = serveSize;
 		this.unit = unit;
+		this.nutrient = nutrient;
 	}
-	
+
 	public String getBrandName() {
 		return brandName;
 	}
@@ -40,9 +44,17 @@ public class ProcessedFood extends Item{
 		this.unit = unit;
 	}
 
-	@Override
-	public String toString() {
-		return "ProcessedFood [brandName=" + brandName + ", serveSize=" + serveSize + ", unit=" + unit + "]";
+	public List<Nutrient> getNutrient() {
+		return nutrient;
 	}
 
+	public void setNutrient(List<Nutrient> nutrient) {
+		this.nutrient = nutrient;
+	}
+
+	@Override
+	public String toString() {
+		return "ProcessedFood [brandName=" + brandName + ", serveSize=" + serveSize + ", unit=" + unit + ", nutrient="
+				+ nutrient + "]";
+	}
 }
