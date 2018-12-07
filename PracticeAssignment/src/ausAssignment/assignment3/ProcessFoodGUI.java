@@ -149,7 +149,7 @@ public class ProcessFoodGUI {
 		f.add(panel2);
 		f.add(panel3);
 
-		f.setSize(600, 600);
+		f.setSize(610, 600);
 		// f.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		f.setLayout(null);
 		f.setVisible(true);
@@ -171,7 +171,7 @@ public class ProcessFoodGUI {
 			System.out.println(nl);
 			System.out.println("doneok");
 		}
-	//	new ProcessFoodGUI();
+		new ProcessFoodGUI();
 		
 	}
 }
