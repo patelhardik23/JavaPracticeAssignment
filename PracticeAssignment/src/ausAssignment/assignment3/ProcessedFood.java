@@ -3,14 +3,13 @@ package ausAssignment.assignment3;
 public class ProcessedFood extends Item{
 
 	private String brandName;
-	private int serveSize;
+	private Integer serveSize;
 	private String unit;
-	//private List nutrient;
 	
 	public ProcessedFood() {
 	}
 	
-	public ProcessedFood(String name, String category, String brandName, int serveSize, String unit) {
+	public ProcessedFood(String name, String category, String brandName, Integer serveSize, String unit) {
 		super(name,category);
 		this.brandName = brandName;
 		this.serveSize = serveSize;
@@ -25,11 +24,11 @@ public class ProcessedFood extends Item{
 		this.brandName = brandName;
 	}
 
-	public int getServeSize() {
+	public Integer getServeSize() {
 		return serveSize;
 	}
 
-	public void setServeSize(int serveSize) {
+	public void setServeSize(Integer serveSize) {
 		this.serveSize = serveSize;
 	}
 

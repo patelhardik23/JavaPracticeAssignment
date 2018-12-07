@@ -20,7 +20,7 @@ public class DataFile {
 		final String COMMA_DELIMITER = ",";
 		BufferedReader br = null;
 		List<ProcessedFood> itemList = new ArrayList<ProcessedFood>();
-		List<Nutrient> nutrientList = new ArrayList<Nutrient>();
+//		List<Nutrient> nutrientList = new ArrayList<Nutrient>();
 		try {
 
 			// Reading the CSV file
@@ -38,13 +38,13 @@ public class DataFile {
 					// Save the product details in product object
 					ProcessedFood itemInfo = new ProcessedFood(productDetails[0], productDetails[1], productDetails[2],
 							Integer.parseInt(productDetails[3]), productDetails[4]);
-					Nutrient nutrientInfo = new Nutrient(Integer.parseInt(productDetails[5]),
+				/*	Nutrient nutrientInfo = new Nutrient(Integer.parseInt(productDetails[5]),
 							Float.parseFloat(productDetails[6]), Float.parseFloat(productDetails[7]),
 							Float.parseFloat(productDetails[8]), Float.parseFloat(productDetails[9]),
 							Float.parseFloat(productDetails[10]), Float.parseFloat(productDetails[11]));
-					itemList.add(itemInfo);
-
 					nutrientList.add(nutrientInfo);
+				*/
+					itemList.add(itemInfo);
 				}
 			}
 		/*System.out.println("=================================================================");

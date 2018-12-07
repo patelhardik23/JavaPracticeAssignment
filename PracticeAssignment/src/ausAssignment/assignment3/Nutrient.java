@@ -1,86 +1,34 @@
 package ausAssignment.assignment3;
 
 public class Nutrient {
-	private int energy;
-	private float protin;
-	private float fat;
-	private float carbohydrate;
-	private float sugar;
-	private float dietaryFiber;
-	private float sodium;
+	private String nutrientName;
+	private Float nutrientAmount;
 
-	public Nutrient(int energy, float protin, float fat, float carbohydrate, float sugar, float dietaryFiber,
-			float sodium) {
+	public Nutrient(String nutrientName, Float nutrientAmount) {
 		super();
-		this.energy = energy;
-		this.protin = protin;
-		this.fat = fat;
-		this.carbohydrate = carbohydrate;
-		this.sugar = sugar;
-		this.dietaryFiber = dietaryFiber;
-		this.sodium = sodium;
+		this.nutrientName = nutrientName;
+		this.nutrientAmount = nutrientAmount;
 	}
 
-	public int getEnergy() {
-		return energy;
+	public String getNutrientName() {
+		return nutrientName;
 	}
 
-	public void setEnergy(int energy) {
-		this.energy = energy;
+	public void setNutrientName(String nutrientName) {
+		this.nutrientName = nutrientName;
 	}
 
-	public float getProtin() {
-		return protin;
+	public Float getNutrientAmount() {
+		return nutrientAmount;
 	}
 
-	public void setProtin(float protin) {
-		this.protin = protin;
-	}
-
-	public float getFat() {
-		return fat;
-	}
-
-	public void setFat(float fat) {
-		this.fat = fat;
-	}
-
-	public float getCarbohydrate() {
-		return carbohydrate;
-	}
-
-	public void setCarbohydrate(float carbohydrate) {
-		this.carbohydrate = carbohydrate;
-	}
-
-	public float getSugar() {
-		return sugar;
-	}
-
-	public void setSugar(float sugar) {
-		this.sugar = sugar;
-	}
-
-	public float getDietaryFiber() {
-		return dietaryFiber;
-	}
-
-	public void setDietaryFiber(float dietaryFiber) {
-		this.dietaryFiber = dietaryFiber;
-	}
-
-	public float getSodium() {
-		return sodium;
-	}
-
-	public void setSodium(float sodium) {
-		this.sodium = sodium;
+	public void setNutrientAmount(Float nutrientAmount) {
+		this.nutrientAmount = nutrientAmount;
 	}
 
 	@Override
 	public String toString() {
-		return "Nutrient [energy=" + energy + ", protin=" + protin + ", fat=" + fat + ", carbohydrate=" + carbohydrate
-				+ ", sugar=" + sugar + ", dietaryFiber=" + dietaryFiber + ", sodium=" + sodium + "]";
+		return "Nutrient [nutrientName=" + nutrientName + ", nutrientAmount=" + nutrientAmount + "]";
 	}
 
 }
