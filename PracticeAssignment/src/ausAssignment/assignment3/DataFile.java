@@ -9,20 +9,19 @@ import java.util.List;
 public class DataFile
 {
 
-    public DataFile(String fileName)
+    public DataFile(String fileName,List<ProcessedFood> itemList)
     {
         super();
         // TODO Auto-generated constructor stub
-        readBooksFromCSV(fileName);
+        readBooksFromCSV(fileName,itemList);
         System.out.println("File Loaded in Object");
     }
 
-    private static void readBooksFromCSV(String fileName)
+    private static void readBooksFromCSV(String fileName, List<ProcessedFood> itemList)
     {
 
         final String COMMA_DELIMITER = ",";
         BufferedReader br = null;
-        List<ProcessedFood> itemList = new ArrayList<ProcessedFood>();
 //		List<Nutrient> nutrientList = new ArrayList<Nutrient>();
         try
         {

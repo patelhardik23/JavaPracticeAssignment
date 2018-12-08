@@ -9,15 +9,13 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProcessFoodGUI implements ActionListener {
+public class ProcessFoodGUI extends JFrame implements ActionListener {
 	
 	private static final Insets WEST_INSETS = new Insets(10, 0, 5, 15);
 	private static final Insets EAST_INSETS = new Insets(10, 20, 5, 0);
 	
 	static List<ProcessedFood> foodList = new ArrayList<ProcessedFood>();
-	static List<Nutrient> nutrientList = new ArrayList<Nutrient>();
 
-	private JFrame f;
 	private JPanel topPanel;
 	private JTextField userNameTxt;
 	private JLabel userNameLbl;
@@ -37,68 +35,67 @@ public class ProcessFoodGUI implements ActionListener {
 	private JButton quitBtn;
 
 	public void intializeGUI() {
-		f = new JFrame("Panel Example");
 
 		setTopPanel();
 		setMiddlePanel();
 		setBottomPanel();
 
-		f.add(topPanel);
-		f.add(middlePanel);
-		f.add(bottomPanel);
+		this.add(topPanel);
+        this.add(middlePanel);
+        this.add(bottomPanel);
 
-		f.setSize(500, 500);
-		f.setLayout(new BoxLayout(f.getContentPane(), BoxLayout.Y_AXIS));
-		f.setVisible(true);
-		f.setResizable(false);
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.pack();
+        this.setSize(500, 500);
+        this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
+        this.setVisible(true);
+        this.setResizable(false);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.pack();
 	}
 
-	private void setTopPanel() {
-		topPanel = new JPanel();
-		
-		topPanel.setLayout(new GridBagLayout());
-		Border border = BorderFactory.createLineBorder(new Color(0, 0, 182, 15), 8, true);
-		topPanel.setBorder(border);
-		
-		GridBagConstraints gbc = new GridBagConstraints();
-		
-		userNameLbl = new JLabel("User Name");
-		gbc = createGbc(0, 0, 1);
-		topPanel.add(userNameLbl,gbc);
-		
-		userNameTxt = new JTextField(10);
-		gbc = createGbc(1, 0, 3);
-		userNameTxt.setEditable(true);
-		userNameLbl.setLabelFor(userNameTxt);
-		topPanel.add(userNameTxt,gbc);
-		
-		cerealsLbl = new JLabel("cereals");
-		gbc = createGbc(0, 1, 1);
-		topPanel.add(cerealsLbl,gbc);
-        
-		String country[] = { "India", "Aus", "U.S.A", "England", "Newzealand" };
+    private void setTopPanel() {
+        topPanel = new JPanel();
 
-		cerealsComboBox = new JComboBox<String>(country);
-		gbc = createGbc(1, 1, 1);
-		cerealsLbl.setLabelFor(cerealsComboBox);
-		cerealsComboBox.setSelectedItem(null);
-		topPanel.add(cerealsComboBox,gbc);
+        topPanel.setLayout(new GridBagLayout());
+        Border border = BorderFactory.createLineBorder(new Color(0, 0, 182, 15), 8, true);
+        topPanel.setBorder(border);
 
-		beveragesLbl = new JLabel("beverages");
-		gbc = createGbc(2, 1, 1);
-		topPanel.add(beveragesLbl,gbc);
-		
-		String state[] = { "Gujarat", "Rajasthan", "M.P.", "Mumbai", "JnK" };
-		beveragesComboBox = new JComboBox<String>(state);
-		gbc = createGbc(3, 1, 1);
-		beveragesLbl.setLabelFor(beveragesComboBox);
-		beveragesComboBox.setSelectedItem(null);
-		topPanel.add(beveragesComboBox,gbc);
+        GridBagConstraints gbc = new GridBagConstraints();
 
-	}
-	
+        userNameLbl = new JLabel("User Name");
+        gbc = createGbc(0, 0, 1);
+        topPanel.add(userNameLbl,gbc);
+
+        userNameTxt = new JTextField(10);
+        gbc = createGbc(1, 0, 3);
+        userNameTxt.setEditable(true);
+        userNameLbl.setLabelFor(userNameTxt);
+        topPanel.add(userNameTxt,gbc);
+
+        cerealsLbl = new JLabel("cereals");
+        gbc = createGbc(0, 1, 1);
+        topPanel.add(cerealsLbl,gbc);
+
+        String country[] = { "India", "Aus", "U.S.A", "England", "Newzealand" };
+
+        cerealsComboBox = new JComboBox<String>(fillComboBox(foodList, "cereals").toArray(new String[0]));
+        gbc = createGbc(1, 1, 1);
+        cerealsLbl.setLabelFor(cerealsComboBox);
+        cerealsComboBox.setSelectedItem(null);
+        topPanel.add(cerealsComboBox,gbc);
+
+        beveragesLbl = new JLabel("beverages");
+        gbc = createGbc(2, 1, 1);
+        topPanel.add(beveragesLbl,gbc);
+
+        String state[] = { "Gujarat", "Rajasthan", "M.P.", "Mumbai", "JnK" };
+        beveragesComboBox = new JComboBox<String>(fillComboBox(foodList, "beverage").toArray(new String[0]));
+        gbc = createGbc(3, 1, 1);
+        beveragesLbl.setLabelFor(beveragesComboBox);
+        beveragesComboBox.setSelectedItem(null);
+        topPanel.add(beveragesComboBox,gbc);
+
+    }
+
 	private GridBagConstraints createGbc(int x, int y, int gridwidth) {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx = x;
@@ -193,6 +190,27 @@ public class ProcessFoodGUI implements ActionListener {
 		}
 	}
 
+	public List<String> fillComboBox(List<ProcessedFood> processedFoodList,String category)
+    {
+        List<String> stringList = new ArrayList<>();
+
+        for(ProcessedFood processedFood:processedFoodList)
+        {
+            if(processedFood.getCategory().equalsIgnoreCase(category))
+            {
+                //cerealsComboBox.addItem(processedFood.getName());
+                stringList.add(processedFood.getName());
+            }
+        }
+
+        return stringList;
+        //cerealsComboBox = new JComboBox<String>((String[]) cerealsList.toArray());
+        //beveragesComboBox = new JComboBox<String>((String[]) beverageList.toArray());
+
+        //topPanel.revalidate();
+        //topPanel.repaint();
+    }
+
 	ProcessFoodGUI() {
 		// String userName;
 	}
@@ -217,19 +235,19 @@ public class ProcessFoodGUI implements ActionListener {
 	public static void main(String args[]) {
 
 		String fileName = "ausAssignment3_data.csv";
-		new DataFile(fileName);
+
+/*
 
 		System.out.println("list created");
 		for (ProcessedFood pf : foodList) {
 			System.out.println(pf);
 			System.out.println("done");
 		}
-		for (Nutrient nl : nutrientList) {
-			System.out.println(nl);
-			System.out.println("doneok");
-		}
-		ProcessFoodGUI processFoodGUI = new ProcessFoodGUI();
-		processFoodGUI.intializeGUI();
+*/
 
+		ProcessFoodGUI processFoodGUI = new ProcessFoodGUI();
+        new DataFile(fileName,foodList);
+		processFoodGUI.intializeGUI();
+		//processFoodGUI.fillComboBox(foodList);
 	}
 }
