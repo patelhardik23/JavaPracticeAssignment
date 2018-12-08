@@ -1,177 +1,235 @@
 package ausAssignment.assignment3;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.*;
+public class ProcessFoodGUI implements ActionListener
+{
+    static List<ProcessedFood> foodList = new ArrayList<ProcessedFood>();
+    static List<Nutrient> nutrientList = new ArrayList<Nutrient>();
 
-public class ProcessFoodGUI {
-	static List<ProcessedFood> foodList = new ArrayList<ProcessedFood>();
-	static List<Nutrient> nutrientList = new ArrayList<Nutrient>();
-	ProcessFoodGUI() {
+    private JFrame f;
+    private JPanel topPanel;
+    private JTextField userNameTxt;
+    private JLabel userNameLbl;
+    private JLabel cerealsLbl;
+    private JComboBox<String> cerealsComboBox;
+    private JComboBox<String> beveragesComboBox;
+    private JLabel beveragesLbl;
 
-		// String userName;
-		JFrame f = new JFrame("Panel Example");
+    private JPanel middlePanel;
+    private JTextArea textArea;
 
-		JPanel panel1 = new JPanel();
+    private JPanel bottomPanel;
+    private JLabel commandLbl;
+    private JButton enterDataBtn;
+    private JButton displayChoiceBtn;
+    private JButton clearDisplayBtn;
+    private JButton quitBtn;
 
-		panel1.setLayout(new FlowLayout(FlowLayout.TRAILING));
+    public void intializeGUI()
+    {
+        f = new JFrame("Panel Example");
 
-		panel1.setBounds(0, 0, 600, 100);
+        setTopPanel();
+        setMiddlePanel();
+        setBottomPanel();
 
-		JTextField userNameField = new JTextField(45);
-		userNameField.setEditable(true);
-		JLabel UserName = new JLabel("User Name");
-		UserName.setLabelFor(userNameField);
+        f.add(topPanel);
+        f.add(middlePanel);
+        f.add(bottomPanel);
 
-		String country[] = { "India", "Aus", "U.S.A", "England", "Newzealand" };
-		JComboBox<String> cb1 = new JComboBox<String>(country);
-		JLabel label2 = new JLabel("cereals");
-		label2.setLabelFor(cb1);
-		cb1.setBounds(10, 30, 10, 10);
-		cb1.setSelectedItem(null);
+        f.setSize(610, 600);
+        // f.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        f.setLayout(null);
+        f.setVisible(true);
+        f.setResizable(false);
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
 
-		String state[] = { "Gujarat", "Rajasthan", "M.P.", "Mumbai", "JnK" };
-		JComboBox<String> cb2 = new JComboBox<String>(state);
-		JLabel label3 = new JLabel("beverages");
-		label3.setLabelFor(cb2);
-		cb2.setBounds(50, 30, 10, 10);
-		cb2.setSelectedItem(null);
+    private void setTopPanel()
+    {
+        topPanel = new JPanel();
 
-		panel1.add(UserName);
-		panel1.add(userNameField);
-		panel1.add(label2);
+        topPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
 
-		panel1.add(cb1);
+        topPanel.setBounds(0, 0, 600, 100);
 
-		panel1.add(label3);
-		panel1.add(cb2);
+        userNameTxt = new JTextField(45);
+        userNameTxt.setEditable(true);
 
-		JPanel panel2 = new JPanel();
-		panel2.setBackground(Color.gray);
-		panel2.setBounds(0, 100, 600, 400);
+        userNameLbl = new JLabel("User Name");
+        userNameLbl.setLabelFor(userNameTxt);
 
-		JTextArea TA1 = new JTextArea("Type here...", 26, 53);
-		// TA1.setBounds(10,210,600,200);
-		panel2.add(TA1);
+        String country[] = {"India", "Aus", "U.S.A", "England", "Newzealand"};
 
-		JPanel panel3 = new JPanel();
-		panel3.setBounds(0, 500, 600, 100);
-		panel3.setLayout(new FlowLayout(FlowLayout.CENTER));
+        cerealsComboBox = new JComboBox<String>(country);
+        cerealsLbl = new JLabel("cereals");
+        cerealsLbl.setLabelFor(cerealsComboBox);
+        cerealsComboBox.setBounds(10, 30, 10, 10);
+        cerealsComboBox.setSelectedItem(null);
 
-		JLabel pannel3Label = new JLabel("Command Buttons");
-		pannel3Label.setLabelFor(panel3);
+        String state[] = {"Gujarat", "Rajasthan", "M.P.", "Mumbai", "JnK"};
+        beveragesComboBox = new JComboBox<String>(state);
+        beveragesLbl = new JLabel("beverages");
+        beveragesLbl.setLabelFor(beveragesComboBox);
+        beveragesComboBox.setBounds(50, 30, 10, 10);
+        beveragesComboBox.setSelectedItem(null);
 
-		JButton enterData = new JButton("Enter Data");
+        topPanel.add(userNameLbl);
+        topPanel.add(userNameTxt);
+        topPanel.add(cerealsLbl);
 
-		ActionListener enterDataAction = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// TA1.setText(null);
-				// userNameField.setText(null);
-				// userNameField.setEditable(false);
-				String userName = userNameField.getText().trim();
-				String cerealsValue = String.valueOf(cb1.getSelectedItem()).trim();
-				String beveragesValue = String.valueOf(cb2.getSelectedItem()).trim();
+        topPanel.add(cerealsComboBox);
 
-				String errorMsg = "";
-				boolean validation = false;
+        topPanel.add(beveragesLbl);
+        topPanel.add(beveragesComboBox);
 
-				if (userName.equals(null) || userName.equals("")) {
-					errorMsg = "Please Enter User Name!!!";
-					validation = false;
-				} else if (cerealsValue.equals(null) || cerealsValue.equals("null")) {
-					errorMsg = "Please select Cereals!!!";
-					validation = false;
-				} else if (beveragesValue.equals(null) || beveragesValue.equals("null")) {
-					errorMsg = "Please Enter beverages!!!";
-					validation = false;
-				} else {
-					validation = true;
-					JOptionPane optionPane = new JOptionPane("Data Inserted Successfully!!", JOptionPane.ERROR_MESSAGE);
-					JDialog dialog = optionPane.createDialog("Conngratulation..");
-					dialog.setAlwaysOnTop(true);
-					dialog.setVisible(true);
-				}
+    }
 
-				if (validation == false) {
-					JOptionPane optionPane = new JOptionPane(errorMsg, JOptionPane.ERROR_MESSAGE);
-					JDialog dialog = optionPane.createDialog("Data Validation");
-					dialog.setAlwaysOnTop(true);
-					dialog.setVisible(true);
-				}
+    private void setMiddlePanel()
+    {
+        middlePanel = new JPanel();
+        middlePanel.setBackground(Color.gray);
+        middlePanel.setBounds(0, 100, 600, 400);
 
-				if (validation == true) {
+        textArea = new JTextArea("Type here...", 26, 53);
+        // TA1.setBounds(10,210,600,200);
+        middlePanel.add(textArea);
 
-					System.out.println("userName : " + userName + "::: Cereals :::" + cerealsValue + ":::Beverages :::"
-							+ beveragesValue);
-				}
-			}
-		};
+    }
 
-		enterData.addActionListener(enterDataAction);
+    private void setBottomPanel()
+    {
+        bottomPanel = new JPanel();
+        bottomPanel.setBounds(0, 500, 600, 100);
+        bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-		JButton b2 = new JButton("Display Choices");
+        commandLbl = new JLabel("Command Buttons");
+        commandLbl.setLabelFor(bottomPanel);
 
-		JButton clearDisplay = new JButton("Clear Display");
+        enterDataBtn = new JButton("Enter Data");
+        displayChoiceBtn = new JButton("Display Choices");
+        clearDisplayBtn = new JButton("Clear Display");
+        quitBtn = new JButton("Quit");
 
-		ActionListener clearAction = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				TA1.setText(null);
-				userNameField.setText(null);
-				userNameField.setEditable(true);
-				cb1.setSelectedItem(null);
-				cb2.setSelectedItem(null);
-			}
-		};
+        enterDataBtn.addActionListener(this::actionPerformed);
+        clearDisplayBtn.addActionListener(this::actionPerformed);
+        quitBtn.addActionListener(this::actionPerformed);
 
-		clearDisplay.addActionListener(clearAction);
+        bottomPanel.add(commandLbl);
+        bottomPanel.add(enterDataBtn);
+        bottomPanel.add(displayChoiceBtn);
+        bottomPanel.add(clearDisplayBtn);
+        bottomPanel.add(quitBtn);
+    }
 
-		JButton quit = new JButton("Quit");
+    private void enterDataBtnClickedAction()
+    {
+        // TA1.setText(null);
+        // userNameField.setText(null);
+        // userNameField.setEditable(false);
+        String userName = userNameTxt.getText().trim();
+        String cerealsValue = String.valueOf(cerealsComboBox.getSelectedItem()).trim();
+        String beveragesValue = String.valueOf(beveragesComboBox.getSelectedItem()).trim();
 
-		ActionListener al = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		};
+        String errorMsg = "";
+        boolean validation = false;
 
-		quit.addActionListener(al);
+        if (userName.equals(null) || userName.equals(""))
+        {
+            errorMsg = "Please Enter User Name!!!";
+            validation = false;
+        }
+        else if (cerealsValue.equals(null) || cerealsValue.equals("null"))
+        {
+            errorMsg = "Please select Cereals!!!";
+            validation = false;
+        }
+        else if (beveragesValue.equals(null) || beveragesValue.equals("null"))
+        {
+            errorMsg = "Please Enter beverages!!!";
+            validation = false;
+        }
+        else
+        {
+            validation = true;
+            JOptionPane optionPane = new JOptionPane("Data Inserted Successfully!!", JOptionPane.ERROR_MESSAGE);
+            JDialog dialog = optionPane.createDialog("Conngratulation..");
+            dialog.setAlwaysOnTop(true);
+            dialog.setVisible(true);
+        }
 
-		panel3.add(pannel3Label);
-		panel3.add(enterData);
-		panel3.add(b2);
-		panel3.add(clearDisplay);
-		panel3.add(quit);
+        if (validation == false)
+        {
+            JOptionPane optionPane = new JOptionPane(errorMsg, JOptionPane.ERROR_MESSAGE);
+            JDialog dialog = optionPane.createDialog("Data Validation");
+            dialog.setAlwaysOnTop(true);
+            dialog.setVisible(true);
+        }
 
-		f.add(panel1);
-		f.add(panel2);
-		f.add(panel3);
+        if (validation == true)
+        {
 
-		f.setSize(610, 600);
-		// f.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		f.setLayout(null);
-		f.setVisible(true);
-		f.setResizable(false);
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
+            System.out.println("userName : " + userName + "::: Cereals :::" + cerealsValue + ":::Beverages :::"
+                                       + beveragesValue);
+        }
+    }
 
-	public static void main(String args[]) {
-		
-		String fileName ="ausAssignment3_data.csv";
-		new DataFile(fileName);
-	
-		System.out.println("list created");
-		for (ProcessedFood pf : foodList) {
-			System.out.println(pf);
-			System.out.println("done");
-		}
-		for (Nutrient nl : nutrientList) {
-			System.out.println(nl);
-			System.out.println("doneok");
-		}
-		new ProcessFoodGUI();
-		
-	}
+    ProcessFoodGUI()
+    {
+        // String userName;
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+        if (e.getSource() == quitBtn)
+        {
+            System.exit(0);
+        }
+        else if (e.getSource() == clearDisplayBtn)
+        {
+            textArea.setText(null);
+            userNameTxt.setText(null);
+            userNameTxt.setEditable(true);
+            cerealsComboBox.setSelectedItem(null);
+            beveragesComboBox.setSelectedItem(null);
+        }
+        else if (e.getSource() == enterDataBtn)
+        {
+            enterDataBtnClickedAction();
+        }
+        else if (e.getSource() == displayChoiceBtn)
+        {
+
+        }
+    }
+
+    public static void main(String args[])
+    {
+
+        String fileName = "ausAssignment3_data.csv";
+        new DataFile(fileName);
+
+        System.out.println("list created");
+        for (ProcessedFood pf : foodList)
+        {
+            System.out.println(pf);
+            System.out.println("done");
+        }
+        for (Nutrient nl : nutrientList)
+        {
+            System.out.println(nl);
+            System.out.println("doneok");
+        }
+        ProcessFoodGUI processFoodGUI = new ProcessFoodGUI();
+        processFoodGUI.intializeGUI();
+
+    }
 }
