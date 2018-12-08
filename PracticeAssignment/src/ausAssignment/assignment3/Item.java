@@ -7,6 +7,7 @@ public class Item {
 	public Item() {
 		super();
 	}
+	
 	public Item(String name, String category) {
 		
 		this.itemName = name;
