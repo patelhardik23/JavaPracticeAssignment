@@ -69,11 +69,11 @@ public class DataFile
                     itemList.add(itemInfo);
                 }
             }
-		System.out.println("=================================================================");
+	/*	System.out.println("=================================================================");
 			for (ProcessedFood df : itemList) {
 				System.out.println(df);
 			}
-		/*	System.out.println("=================================================================");
+			System.out.println("=================================================================");
 			for (Nutrient nl : nutrientList) {
 				System.out.println(nl);
 			}
