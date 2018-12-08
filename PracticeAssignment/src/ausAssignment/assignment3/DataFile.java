@@ -6,95 +6,67 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataFile
-{
+public class DataFile {
 
-    public DataFile(String fileName,List<ProcessedFood> itemList)
-    {
-        super();
-        // TODO Auto-generated constructor stub
-        readBooksFromCSV(fileName,itemList);
-        System.out.println("File Loaded in Object");
-    }
+	public DataFile(String fileName, List<ProcessedFood> itemList) {
+		super();
+		// TODO Auto-generated constructor stub
+		readBooksFromCSV(fileName, itemList);
+		System.out.println("File Loaded in Object");
+	}
 
-    private static void readBooksFromCSV(String fileName, List<ProcessedFood> itemList)
-    {
+	private static void readBooksFromCSV(String fileName, List<ProcessedFood> itemList) {
 
-        final String COMMA_DELIMITER = ",";
-        BufferedReader br = null;
-//		List<Nutrient> nutrientList = new ArrayList<Nutrient>();
-        try
-        {
+		final String COMMA_DELIMITER = ",";
+		BufferedReader br = null;
 
-            // Reading the CSV file
-            br = new BufferedReader(new FileReader(fileName));
-            // Create list for holding data object
+		try {
 
-            String line = "";
-            // Read to skip the header
-            br.readLine();
-            // Reading from the second line
-            while ((line = br.readLine()) != null)
-            {
-                String[] productDetails = line.split(COMMA_DELIMITER);
+			// Reading the CSV file
+			br = new BufferedReader(new FileReader(fileName));
+			// Create list for holding data object
 
-                if (productDetails.length > 0)
-                {
-                    // Save the product details in product object
-                    String itemName = productDetails[0];
-                    String category = productDetails[1];
-                    String brand = productDetails[2];
-                    Integer serveSize = Integer.parseInt(productDetails[3]);
-                    String unit = productDetails[4];
+			String line = "";
+			// Read to skip the header
+			br.readLine();
+			// Reading from the second line
+			while ((line = br.readLine()) != null) {
+				String[] productDetails = line.split(COMMA_DELIMITER);
 
-                    List<Nutrient> nutrients = new ArrayList<>();
+				if (productDetails.length > 0) {
+					// Save the product details in product object
+					String itemName = productDetails[0];
+					String category = productDetails[1];
+					String brand = productDetails[2];
+					Integer serveSize = Integer.parseInt(productDetails[3]);
+					String unit = productDetails[4];
 
-                    nutrients.add(new Nutrient("energyKg", Float.parseFloat(productDetails[5])));
-                    nutrients.add(new Nutrient("proteinGm", Float.parseFloat(productDetails[6])));
-                    nutrients.add(new Nutrient("fatGm", Float.parseFloat(productDetails[7])));
-                    nutrients.add(new Nutrient("carbohydrateGm", Float.parseFloat(productDetails[8])));
-                    nutrients.add(new Nutrient("sugarGm", Float.parseFloat(productDetails[9])));
-                    nutrients.add(new Nutrient("dietaryFibre", Float.parseFloat(productDetails[10])));
-                    nutrients.add(new Nutrient("sodiumMg", Float.parseFloat(productDetails[11])));
+					List<Nutrient> nutrients = new ArrayList<>();
 
-                    ProcessedFood itemInfo = new ProcessedFood(itemName, category, brand, serveSize, unit, nutrients);
+					nutrients.add(new Nutrient("energyKg", Float.parseFloat(productDetails[5])));
+					nutrients.add(new Nutrient("proteinGm", Float.parseFloat(productDetails[6])));
+					nutrients.add(new Nutrient("fatGm", Float.parseFloat(productDetails[7])));
+					nutrients.add(new Nutrient("carbohydrateGm", Float.parseFloat(productDetails[8])));
+					nutrients.add(new Nutrient("sugarGm", Float.parseFloat(productDetails[9])));
+					nutrients.add(new Nutrient("dietaryFibre", Float.parseFloat(productDetails[10])));
+					nutrients.add(new Nutrient("sodiumMg", Float.parseFloat(productDetails[11])));
 
-				/*	Nutrient nutrientInfo = new Nutrient(Integer.parseInt(productDetails[5]),
-							Float.parseFloat(productDetails[6]), Float.parseFloat(productDetails[7]),
-							Float.parseFloat(productDetails[8]), Float.parseFloat(productDetails[9]),
-							Float.parseFloat(productDetails[10]), Float.parseFloat(productDetails[11]));
-					nutrientList.add(nutrientInfo);
-				*/
-                    itemList.add(itemInfo);
-                }
-            }
-	/*	System.out.println("=================================================================");
-			for (ProcessedFood df : itemList) {
-				System.out.println(df);
+					ProcessedFood itemInfo = new ProcessedFood(itemName, category, brand, serveSize, unit, nutrients);
+
+					itemList.add(itemInfo);
+				}
 			}
-			System.out.println("=================================================================");
-			for (Nutrient nl : nutrientList) {
-				System.out.println(nl);
+
+		} catch (IOException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			try {
+				br.close();
+			} catch (IOException ie) {
+				System.out.println("Error occured while closing the BufferedReader");
+				ie.printStackTrace();
 			}
-			System.out.println("=================================================================");
-		*/
-        }
-        catch (IOException e)
-        {
-            // TODO: handle exception
-            e.printStackTrace();
-        }
-        finally
-        {
-            try
-            {
-                br.close();
-            }
-            catch (IOException ie)
-            {
-                System.out.println("Error occured while closing the BufferedReader");
-                ie.printStackTrace();
-            }
-        }
-    }
+		}
+	}
 }

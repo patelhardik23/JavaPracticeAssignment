@@ -3,13 +3,14 @@ package ausAssignment.assignment3;
 public class Nutrient {
 	private String nutrientName;
 	private Float nutrientAmount;
-
+	
+	
 	public Nutrient(String nutrientName, Float nutrientAmount) {
 		super();
 		this.nutrientName = nutrientName;
 		this.nutrientAmount = nutrientAmount;
 	}
-
+	
 	public String getNutrientName() {
 		return nutrientName;
 	}
