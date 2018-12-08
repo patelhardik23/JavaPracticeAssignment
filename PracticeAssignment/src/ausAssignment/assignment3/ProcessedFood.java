@@ -12,8 +12,8 @@ public class ProcessedFood extends Item {
 	public ProcessedFood() {
 	}
 
-	public ProcessedFood(String brandName, Integer serveSize, String unit, List<Nutrient> nutrient) {
-		super();
+	public ProcessedFood(String itemName,String category,String brandName, Integer serveSize, String unit, List<Nutrient> nutrient) {
+		super(itemName,category);
 		this.brandName = brandName;
 		this.serveSize = serveSize;
 		this.unit = unit;
