@@ -2,6 +2,9 @@ package ausAssignment.assignment3;
 
 import java.util.List;
 
+/*
+ * Inherited class Item in this class
+ */
 public class ProcessedFood extends Item {
 
 	private String brandName;

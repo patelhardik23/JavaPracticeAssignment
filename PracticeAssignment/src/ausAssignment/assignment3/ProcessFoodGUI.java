@@ -50,6 +50,16 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 	String cerealsValue = "";
 	String beveragesValue = "";
 
+	/*
+	 * default constructor
+	 */
+	ProcessFoodGUI() {
+		// String userName;
+	}
+
+	/*
+	 * Load all component in frame and set constraints on frame
+	 */
 	public void intializeGUI() {
 
 		topPanel = new JPanel();
@@ -74,6 +84,9 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 		this.pack();
 	}
 
+	/*
+	 * Set all component of top pannel.
+	 */
 	private void setTopPanel() {
 
 		topPanel.setLayout(new GridBagLayout());
@@ -88,7 +101,6 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 
 		userNameTxt = new JTextField(10);
 		gbc = createGbc(1, 0, 3);
-		userNameTxt.setEditable(true);
 		userNameLbl.setLabelFor(userNameTxt);
 		topPanel.add(userNameTxt, gbc);
 
@@ -111,9 +123,11 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 		beveragesLbl.setLabelFor(beveragesComboBox);
 		beveragesComboBox.setSelectedIndex(-1);
 		topPanel.add(beveragesComboBox, gbc);
-
 	}
 
+	/*
+	 * set constraints for grid bag layout.
+	 */
 	private GridBagConstraints createGbc(int x, int y, int gridwidth) {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx = x;
@@ -128,6 +142,23 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 		return gbc;
 	}
 
+	/*
+	 * Generate list for given category of food
+	 */
+	public static List<String> fillComboBox(List<ProcessedFood> processedFoodList, String category) {
+		List<String> stringList = new ArrayList<>();
+
+		for (ProcessedFood processedFood : processedFoodList) {
+			if (processedFood.getCategory().equalsIgnoreCase(category)) {
+				stringList.add(processedFood.getName());
+			}
+		}
+		return stringList;
+	}
+
+	/*
+	 * Set all components and user guidelines to use application
+	 */
 	private void setMiddlePanel() {
 		middlePanel.removeAll();
 		userMessage = "Hello User!!!\n\n" + "Welcome to Processed Food Assessor System\n\n"
@@ -150,12 +181,143 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 		middlePanel.repaint();
 	}
 
+	/*
+	 * Set all components of bottom panel along with action listeners
+	 */
+	private void setBottomPanel() {
+
+		bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 10));
+		Border border = BorderFactory.createLineBorder(new Color(0, 0, 182, 15), 8, true);
+		bottomPanel.setBorder(border);
+		commandLbl = new JLabel("Command Buttons");
+		commandLbl.setLabelFor(bottomPanel);
+
+		enterDataBtn = new JButton("Enter Data");
+
+		displayChoiceBtn = new JButton("Display Choices");
+		displayChoiceBtn.setEnabled(false);
+		clearDisplayBtn = new JButton("Clear Display");
+		clearDisplayBtn.setEnabled(false);
+		quitBtn = new JButton("Quit");
+
+		enterDataBtn.addActionListener(this::actionPerformed);
+		displayChoiceBtn.addActionListener(this::actionPerformed);
+		clearDisplayBtn.addActionListener(this::actionPerformed);
+		quitBtn.addActionListener(this::actionPerformed);
+
+		bottomPanel.add(commandLbl);
+		bottomPanel.add(enterDataBtn);
+		bottomPanel.add(displayChoiceBtn);
+		bottomPanel.add(clearDisplayBtn);
+		bottomPanel.add(quitBtn);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 * List of action to be performed based on source of action
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
+
+		if (e.getSource() == quitBtn) {
+
+			System.exit(0);
+
+		} else if (e.getSource() == clearDisplayBtn) {
+
+			userName = null;
+			cerealsValue = null;
+			beveragesValue = null;
+
+			userNameTxt.setEditable(true);
+
+			userNameTxt.setText(null);
+			cerealsComboBox.setSelectedIndex(-1);
+			beveragesComboBox.setSelectedIndex(-1);
+
+			setMiddlePanel();
+
+			enterDataBtn.setEnabled(true);
+			displayChoiceBtn.setEnabled(false);
+			clearDisplayBtn.setEnabled(false);
+
+		} else if (e.getSource() == enterDataBtn) {
+
+			enterDataBtnClickedAction();
+
+		} else if (e.getSource() == displayChoiceBtn) {
+
+			dipalyUserChoiceData();
+
+		}
+	}
+
+	/*
+	 * list of events to be done when "Enter Data" button is selected gets user name
+	 * and choices of different food category cereals and beverages and display
+	 * message to user accordingly.
+	 */
+	private void enterDataBtnClickedAction() {
+
+		displayChoiceBtn.setEnabled(true);
+
+		userName = userNameTxt.getText().trim();
+		cerealsValue = String.valueOf(cerealsComboBox.getSelectedItem());
+		beveragesValue = String.valueOf(beveragesComboBox.getSelectedItem());
+
+		String errorMsg = "";
+
+		//validate data input by user
+
+		if (userName.equals(null) || userName.equals("")) {
+			errorMsg = "Please Enter User Name!!!";
+			errorMessage(errorMsg);
+		} else if (cerealsValue.equals(null) || cerealsValue.equals("null")) {
+			errorMsg = "Please select Cereals!!!";
+			errorMessage(errorMsg);
+		} else if (beveragesValue.equals(null) || beveragesValue.equals("null")) {
+			errorMsg = "Please Enter beverages!!!";
+			errorMessage(errorMsg);
+		} else {
+			userMessage = "Hello  " + userName + "\n\n" + "Welcome to Processed Food Assessor System\n\n"
+					+ "You have selected '" + cerealsValue + "' in cereals and '" + beveragesValue
+					+ "' in beverages.\n\n" + "Click the 'Display Choices' button to view details of your choices.\n\n"
+					+ "Thank you.";
+			System.out.println(
+					"userName : " + userName + "::: Cereals :::" + cerealsValue + ":::Beverages :::" + beveragesValue);
+		}
+		textArea.setText(userMessage);
+	}
+
+	/*
+	 * generate error dialog box according to validation failure
+	 */
+	public void errorMessage(String errorMsg) {
+
+		JOptionPane optionPane = new JOptionPane(errorMsg, JOptionPane.ERROR_MESSAGE);
+		JDialog dialog = optionPane.createDialog("Data Validation");
+		dialog.setAlwaysOnTop(true);
+		dialog.setVisible(true);
+	}
+	/*
+	 * gets all the details given by user and fetch information accordingly and
+	 * display it in user readable format. here we have use tabular format.
+	 */
+
 	private void dipalyUserChoiceData() {
 
+		clearDisplayBtn.setEnabled(true);
+		enterDataBtn.setEnabled(false);
+		userNameTxt.setEditable(false);
 		middlePanel.removeAll();
 
 		String dataHeader[] = { "Food Type", "Item Name", "Brand", "Serve Size ", "Unit", "Energy" };
 
+		// Allow to create dynamic table
+		 
 		DefaultTableModel tableModel = new DefaultTableModel(dataHeader, 0);
 
 		table = new JTable(tableModel);
@@ -165,19 +327,21 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 		table.setShowGrid(false);
 		table.setRowHeight(25);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		/*
-		 * Adjust the width of the specified column in the table
-		 */
+		
+		// Adjust the width of the specified column in the table
+		
 		for (int column = 0; column < table.getColumnCount(); column++) {
 			TableColumn tableColumn = table.getColumnModel().getColumn(column);
 			tableColumn.setHeaderRenderer(new HeaderRenderer());
 			int columnHeaderWidth = getColumnHeaderWidth(column);
 			int columnDataWidth = getColumnDataWidth(column);
 			int preferredWidth = Math.max(columnHeaderWidth, columnDataWidth);
-			tableColumn.setPreferredWidth(preferredWidth+10);
+			tableColumn.setPreferredWidth(preferredWidth + 10);
 		}
+		
 		JTableHeader header = table.getTableHeader();
 		header.setBackground(Color.WHITE);
+		
 		textAreaScroll = new JScrollPane(table);
 		textAreaScroll.setVisible(true);
 		textAreaScroll.setBackground(Color.WHITE);
@@ -185,9 +349,42 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 		textAreaScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		textAreaScroll.getHorizontalScrollBar();
 		textAreaScroll.getViewport().setBackground(Color.white);
+		
 		middlePanel.add(textAreaScroll);
 		middlePanel.revalidate();
 		middlePanel.repaint();
+	}
+
+	/*
+	 * get all the information of the given food item and category
+	 */
+	public static List<String> getDataOfUserChoice(List<ProcessedFood> processedFoodList, String category,
+			String foodName) {
+		List<String> dataList = new ArrayList<>();
+
+		for (ProcessedFood pf : processedFoodList) {
+			if (pf.getCategory().equalsIgnoreCase(category) && pf.getName().equalsIgnoreCase(foodName)) {
+				dataList.add(pf.getName());
+				dataList.add(pf.getBrandName());
+				dataList.add(pf.getCategory());
+				dataList.add(pf.getUnit());
+				dataList.add(pf.getServeSize().toString());
+				dataList.add(pf.getNutrient().toString());
+			}
+		}
+		return dataList;
+	}
+
+	/*
+	 * Removes header gird from the table
+	 */
+	class HeaderRenderer extends JLabel implements TableCellRenderer {
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean hasFocus, boolean isSelected,
+				int row, int col) {
+			setText(value.toString());
+			setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+			return this;
+		}
 	}
 
 	/*
@@ -238,149 +435,9 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 		return width;
 	}
 
-	private void setBottomPanel() {
-
-		bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 10));
-		Border border = BorderFactory.createLineBorder(new Color(0, 0, 182, 15), 8, true);
-		bottomPanel.setBorder(border);
-		commandLbl = new JLabel("Command Buttons");
-		commandLbl.setLabelFor(bottomPanel);
-
-		enterDataBtn = new JButton("Enter Data");
-
-		displayChoiceBtn = new JButton("Display Choices");
-		displayChoiceBtn.setEnabled(false);
-		clearDisplayBtn = new JButton("Clear Display");
-		clearDisplayBtn.setEnabled(false);
-		quitBtn = new JButton("Quit");
-
-		enterDataBtn.addActionListener(this::actionPerformed);
-		displayChoiceBtn.addActionListener(this::actionPerformed);
-		clearDisplayBtn.addActionListener(this::actionPerformed);
-		quitBtn.addActionListener(this::actionPerformed);
-
-		bottomPanel.add(commandLbl);
-		bottomPanel.add(enterDataBtn);
-		bottomPanel.add(displayChoiceBtn);
-		bottomPanel.add(clearDisplayBtn);
-		bottomPanel.add(quitBtn);
-	}
-
-	private void enterDataBtnClickedAction() {
-
-		userName = userNameTxt.getText().trim();
-		cerealsValue = String.valueOf(cerealsComboBox.getSelectedItem()).trim();
-		beveragesValue = String.valueOf(beveragesComboBox.getSelectedItem()).trim();
-
-		String errorMsg = "";
-
-		if (userName.equals(null) || userName.equals("")) {
-			errorMsg = "Please Enter User Name!!!";
-			errorMessage(errorMsg);
-		} else if (cerealsValue.equals(null) || cerealsValue.equals("null")) {
-			errorMsg = "Please select Cereals!!!";
-			errorMessage(errorMsg);
-		} else if (beveragesValue.equals(null) || beveragesValue.equals("null")) {
-			errorMsg = "Please Enter beverages!!!";
-			errorMessage(errorMsg);
-		} else {
-			userMessage = "Hello  " + userName + "\n\n" + "Welcome to Processed Food Assessor System\n\n"
-					+ "You have selected '" + cerealsValue + "' in cereals and '" + beveragesValue
-					+ "' in beverages.\n\n" + "Click the 'Display Choices' button to view details of your choices.\n\n"
-					+ "Thank you.";
-			System.out.println(
-					"userName : " + userName + "::: Cereals :::" + cerealsValue + ":::Beverages :::" + beveragesValue);
-		}
-	}
-
-	public void errorMessage(String errorMsg) {
-
-		JOptionPane optionPane = new JOptionPane(errorMsg, JOptionPane.ERROR_MESSAGE);
-		JDialog dialog = optionPane.createDialog("Data Validation");
-		dialog.setAlwaysOnTop(true);
-		dialog.setVisible(true);
-
-	}
-
-	public static List<String> fillComboBox(List<ProcessedFood> processedFoodList, String category) {
-		List<String> stringList = new ArrayList<>();
-
-		for (ProcessedFood processedFood : processedFoodList) {
-			if (processedFood.getCategory().equalsIgnoreCase(category)) {
-				// cerealsComboBox.addItem(processedFood.getName());
-				stringList.add(processedFood.getName());
-			}
-		}
-
-		return stringList;
-		// cerealsComboBox = new JComboBox<String>((String[]) cerealsList.toArray());
-		// beveragesComboBox = new JComboBox<String>((String[]) beverageList.toArray());
-
-		// topPanel.revalidate();
-		// topPanel.repaint();
-	}
-
-	public static List<String> getDataOfUserChoice(List<ProcessedFood> processedFoodList, String category,
-			String foodName) {
-		List<String> dataList = new ArrayList<>();
-
-		for (ProcessedFood pf : processedFoodList) {
-			if (pf.getCategory().equalsIgnoreCase(category) && pf.getName().equalsIgnoreCase(foodName)) {
-				dataList.add(pf.getName());
-				dataList.add(pf.getBrandName());
-				dataList.add(pf.getCategory());
-				dataList.add(pf.getUnit());
-				dataList.add(pf.getServeSize().toString());
-				dataList.add(pf.getNutrient().toString());
-			}
-		}
-		return dataList;
-	}
-
-	ProcessFoodGUI() {
-		// String userName;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == quitBtn) {
-			System.exit(0);
-		} else if (e.getSource() == clearDisplayBtn) {
-
-			userName = null;
-			cerealsValue = null;
-			beveragesValue = null;
-			userNameTxt.setText(null);
-			userNameTxt.setEditable(true);
-			cerealsComboBox.setSelectedIndex(-1);
-			beveragesComboBox.setSelectedIndex(-1);
-			setMiddlePanel();
-			enterDataBtn.setEnabled(true);
-			displayChoiceBtn.setEnabled(false);
-			clearDisplayBtn.setEnabled(false);
-		} else if (e.getSource() == enterDataBtn) {
-			textArea.setText(welcomeMessage);
-			enterDataBtnClickedAction();
-			displayChoiceBtn.setEnabled(true);
-			textArea.setText(userMessage);
-		} else if (e.getSource() == displayChoiceBtn) {
-			dipalyUserChoiceData();
-			clearDisplayBtn.setEnabled(true);
-			enterDataBtn.setEnabled(false);
-		}
-	}
-/*
- * Removes header gird from the table
- */
-	class HeaderRenderer extends JLabel implements TableCellRenderer {
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean hasFocus, boolean isSelected,
-				int row, int col) {
-			setText(value.toString());
-			setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
-			return this;
-		}
-	}
-
+	/*
+	 * main method to execute application
+	 */
 	public static void main(String args[]) {
 
 		String fileName = "ausAssignment3_data.csv";

@@ -8,6 +8,9 @@ import java.util.List;
 
 public class DataFile {
 
+	/*
+	 * Default Constructor that will take file name as parameter and list to store data.
+	 */
 	public DataFile(String fileName, List<ProcessedFood> itemList) {
 		super();
 		// TODO Auto-generated constructor stub
@@ -20,15 +23,17 @@ public class DataFile {
 		final String COMMA_DELIMITER = ",";
 		BufferedReader br = null;
 
+		// Exception handling
 		try {
 
 			// Reading the CSV file
 			br = new BufferedReader(new FileReader(fileName));
-			// Create list for holding data object
 
 			String line = "";
+
 			// Read to skip the header
 			br.readLine();
+
 			// Reading from the second line
 			while ((line = br.readLine()) != null) {
 				String[] productDetails = line.split(COMMA_DELIMITER);
