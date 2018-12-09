@@ -35,21 +35,21 @@ public class DataFile {
 
 				if (productDetails.length > 0) {
 					// Save the product details in product object
-					String itemName = productDetails[0];
-					String category = productDetails[1];
-					String brand = productDetails[2];
-					Integer serveSize = Integer.parseInt(productDetails[3]);
-					String unit = productDetails[4];
+					String itemName = productDetails[0].trim();
+					String category = productDetails[1].trim();
+					String brand = productDetails[2].trim();
+					Integer serveSize = Integer.parseInt(productDetails[3].trim());
+					String unit = productDetails[4].trim();
 
 					List<Nutrient> nutrients = new ArrayList<>();
 
-					nutrients.add(new Nutrient("energyKg", Float.parseFloat(productDetails[5])));
-					nutrients.add(new Nutrient("proteinGm", Float.parseFloat(productDetails[6])));
-					nutrients.add(new Nutrient("fatGm", Float.parseFloat(productDetails[7])));
-					nutrients.add(new Nutrient("carbohydrateGm", Float.parseFloat(productDetails[8])));
-					nutrients.add(new Nutrient("sugarGm", Float.parseFloat(productDetails[9])));
-					nutrients.add(new Nutrient("dietaryFibre", Float.parseFloat(productDetails[10])));
-					nutrients.add(new Nutrient("sodiumMg", Float.parseFloat(productDetails[11])));
+					nutrients.add(new Nutrient("energyKg", Float.parseFloat(productDetails[5].trim())));
+					nutrients.add(new Nutrient("proteinGm", Float.parseFloat(productDetails[6].trim())));
+					nutrients.add(new Nutrient("fatGm", Float.parseFloat(productDetails[7].trim())));
+					nutrients.add(new Nutrient("carbohydrateGm", Float.parseFloat(productDetails[8].trim())));
+					nutrients.add(new Nutrient("sugarGm", Float.parseFloat(productDetails[9].trim())));
+					nutrients.add(new Nutrient("dietaryFibre", Float.parseFloat(productDetails[10].trim())));
+					nutrients.add(new Nutrient("sodiumMg", Float.parseFloat(productDetails[11].trim())));
 
 					ProcessedFood itemInfo = new ProcessedFood(itemName, category, brand, serveSize, unit, nutrients);
 
