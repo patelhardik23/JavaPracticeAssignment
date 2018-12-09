@@ -3,6 +3,7 @@ package ausAssignment.assignment3;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
@@ -109,7 +110,6 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 		gbc = createGbc(3, 1, 1);
 		beveragesLbl.setLabelFor(beveragesComboBox);
 		beveragesComboBox.setSelectedIndex(-1);
-		;
 		topPanel.add(beveragesComboBox, gbc);
 
 	}
@@ -135,7 +135,6 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 				+ "2. Select cereals and Beverages of you choice.\n"
 				+ "3. Click the 'Enter Data' Button to enter you choice.\n\n" + "Thank you.";
 
-//		middlePanel = new JPanel();
 		middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.X_AXIS));
 		Border border = BorderFactory.createLineBorder(new Color(0, 0, 182, 15), 8, true);
 		middlePanel.setBorder(border);
@@ -171,19 +170,21 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 		 */
 		for (int column = 0; column < table.getColumnCount(); column++) {
 			TableColumn tableColumn = table.getColumnModel().getColumn(column);
+			tableColumn.setHeaderRenderer(new HeaderRenderer());
 			int columnHeaderWidth = getColumnHeaderWidth(column);
 			int columnDataWidth = getColumnDataWidth(column);
 			int preferredWidth = Math.max(columnHeaderWidth, columnDataWidth);
-			tableColumn.setPreferredWidth(preferredWidth + 10);
+			tableColumn.setPreferredWidth(preferredWidth+10);
 		}
-
+		JTableHeader header = table.getTableHeader();
+		header.setBackground(Color.WHITE);
 		textAreaScroll = new JScrollPane(table);
 		textAreaScroll.setVisible(true);
 		textAreaScroll.setBackground(Color.WHITE);
 		textAreaScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		textAreaScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		textAreaScroll.getHorizontalScrollBar();
-
+		textAreaScroll.getViewport().setBackground(Color.white);
 		middlePanel.add(textAreaScroll);
 		middlePanel.revalidate();
 		middlePanel.repaint();
@@ -368,16 +369,21 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 			enterDataBtn.setEnabled(false);
 		}
 	}
+/*
+ * Removes header gird from the table
+ */
+	class HeaderRenderer extends JLabel implements TableCellRenderer {
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean hasFocus, boolean isSelected,
+				int row, int col) {
+			setText(value.toString());
+			setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+			return this;
+		}
+	}
 
 	public static void main(String args[]) {
 
 		String fileName = "ausAssignment3_data.csv";
-
-		/*
-		 * 
-		 * System.out.println("list created"); for (ProcessedFood pf : foodList) {
-		 * System.out.println(pf); System.out.println("done"); }
-		 */
 
 		ProcessFoodGUI processFoodGUI = new ProcessFoodGUI();
 		new DataFile(fileName, foodList);
