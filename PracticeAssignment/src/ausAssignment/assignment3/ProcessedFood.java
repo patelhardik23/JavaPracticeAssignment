@@ -64,11 +64,27 @@ public class ProcessedFood extends Item {
 		return nutrient;
 	}
 
+	public Float getSelectedNutrient(List<Nutrient> nutrientList,String nutrientName)
+	{
+		for(Nutrient nutrient:nutrientList)
+		{
+			if(nutrient.getNutrientName().equalsIgnoreCase(nutrientName))
+			{
+				return nutrient.getNutrientAmount();
+			}
+		}
+		return Float.NaN;
+	}
+
+	public String getSelectedNutrientInString(List<Nutrient> nutrientList,String nutrientName)
+    {
+        return String.format("%.2f",getSelectedNutrient(nutrientList,nutrientName));
+    }
+
 	public void setNutrient(List<Nutrient> nutrient) {
 		this.nutrient = nutrient;
 	}
 
-	@Override
 	public String toString() {
 		return "ProcessedFood [brandName=" + brandName + ", serveSize=" + serveSize + ", unit=" + unit + ", nutrient="
 				+ nutrient + "]";
