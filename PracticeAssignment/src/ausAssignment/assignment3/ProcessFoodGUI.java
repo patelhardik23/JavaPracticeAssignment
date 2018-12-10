@@ -44,6 +44,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 	private JButton clearDisplayBtn;
 	private JButton quitBtn;
 	private JTable table;
+	private Font textFont = new Font("",0,15);
 	String userMessage = "";
 	String welcomeMessage = "";
 	String userName = "";
@@ -171,10 +172,9 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 		middlePanel.setBorder(border);
 		middlePanel.setBackground(Color.WHITE);
 
-		Font textAreaFont = new Font("SansSerif", 0, 15);
 		textArea = new JTextArea(userMessage, 20, 20);
 		textArea.setEditable(false);
-		textArea.setFont(textAreaFont);
+		textArea.setFont(textFont);
 		textArea.setMargin(new Insets(10, 10, 10, 10));
 		middlePanel.add(textArea);
 		middlePanel.revalidate();
@@ -341,10 +341,15 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 		
 		JTableHeader header = table.getTableHeader();
 		header.setBackground(Color.WHITE);
+		header.setFont(textFont);
 		
 		textAreaScroll = new JScrollPane(table);
 		textAreaScroll.setVisible(true);
 		textAreaScroll.setBackground(Color.WHITE);
+		
+		table.setFont(textFont);
+		textAreaScroll.setFont(textFont);
+		
 		textAreaScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		textAreaScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		textAreaScroll.getHorizontalScrollBar();
@@ -426,7 +431,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 	 * Get the preferred width for the specified cell
 	 */
 	private int getCellDataWidth(int row, int column) {
-		// Inovke the renderer for the cell to calculate the preferred width
+		// Invoke the renderer for the cell to calculate the preferred width
 
 		TableCellRenderer cellRenderer = table.getCellRenderer(row, column);
 		Component c = table.prepareRenderer(cellRenderer, row, column);
@@ -443,7 +448,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 		String fileName = "ausAssignment3_data.csv";
 
 		ProcessFoodGUI processFoodGUI = new ProcessFoodGUI();
-		new DataFile(fileName, foodList);
+		DataFile dataFile = new DataFile(fileName, foodList);
 		processFoodGUI.intializeGUI();
 		// processFoodGUI.fillComboBox(foodList);
 	}

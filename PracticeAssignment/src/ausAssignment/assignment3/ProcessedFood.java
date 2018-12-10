@@ -14,13 +14,26 @@ public class ProcessedFood extends Item {
 
 	public ProcessedFood() {
 	}
-
-	public ProcessedFood(String itemName,String category,String brandName, Integer serveSize, String unit, List<Nutrient> nutrient) {
-		super(itemName,category);
+/*
+ * Parameterize constructor that includes parameters of super class Item as well
+ */
+	public ProcessedFood(String itemName, String category, String brandName, Integer serveSize, String unit,
+			List<Nutrient> nutrient) {
+		super(itemName, category);
 		this.brandName = brandName;
 		this.serveSize = serveSize;
 		this.unit = unit;
 		this.nutrient = nutrient;
+	}
+/*
+ * Copy constructor to create copy of object
+ */
+	public ProcessedFood(ProcessedFood processedFood) {
+		System.out.println("Copy Constructor called");
+		brandName = processedFood.brandName;
+		serveSize = processedFood.serveSize;
+		unit = processedFood.unit;
+		nutrient = processedFood.nutrient;
 	}
 
 	public String getBrandName() {
