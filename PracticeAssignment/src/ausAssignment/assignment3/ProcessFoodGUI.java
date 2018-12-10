@@ -95,7 +95,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
 
         GridBagConstraints gbc = new GridBagConstraints();
 
-        userNameLbl = new JLabel("User Name");
+        userNameLbl = new JLabel("User Name  ");
         gbc = createGbc(0, 0, 1);
         topPanel.add(userNameLbl, gbc);
 
@@ -104,7 +104,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         userNameLbl.setLabelFor(userNameTxt);
         topPanel.add(userNameTxt, gbc);
 
-        cerealsLbl = new JLabel("cereals");
+        cerealsLbl = new JLabel("Cereals ");
         gbc = createGbc(0, 1, 1);
         topPanel.add(cerealsLbl, gbc);
 
@@ -114,7 +114,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         cerealsComboBox.setSelectedIndex(-1);
         topPanel.add(cerealsComboBox, gbc);
 
-        beveragesLbl = new JLabel("beverages");
+        beveragesLbl = new JLabel("Beverages   ");
         gbc = createGbc(2, 1, 1);
         topPanel.add(beveragesLbl, gbc);
 
@@ -390,6 +390,9 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         table.setRowHeight(25);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
+        JTableHeader header = table.getTableHeader();
+        header.setBackground(Color.WHITE);
+        header.setFont(textFont);
         // Adjust the width of the specified column in the table
 
         for (int column = 0; column < table.getColumnCount(); column++)
@@ -402,9 +405,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
             tableColumn.setPreferredWidth(preferredWidth + 10);
         }
 
-        JTableHeader header = table.getTableHeader();
-        header.setBackground(Color.WHITE);
-        header.setFont(textFont);
+
 
         textAreaScroll = new JScrollPane(table);
         textAreaScroll.setVisible(true);

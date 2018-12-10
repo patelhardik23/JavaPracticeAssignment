@@ -73,7 +73,7 @@ public class ProcessedFood extends Item {
 				return nutrient.getNutrientAmount();
 			}
 		}
-		return Float.NaN;
+		return 0.0f;
 	}
 
 	public String getSelectedNutrientInString(List<Nutrient> nutrientList,String nutrientName)
