@@ -29,8 +29,8 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 	private JLabel beveragesLbl;
 
 	private JPanel middlePanel;
-	private JTextArea textArea;
-	private JScrollPane textAreaScroll;
+	private JTextArea textAreaForMsg;
+	private JScrollPane displayDataScroll;
 
 	private JPanel bottomPanel;
 	private JLabel commandLbl;
@@ -38,7 +38,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 	private JButton displayChoiceBtn;
 	private JButton clearDisplayBtn;
 	private JButton quitBtn;
-	private JTable table;
+	private JTable dataTable;
 	private Font textFont = new Font("", 0, 15);
 	String userMessage = "";
 	String welcomeMessage = "";
@@ -50,7 +50,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 	 * default constructor
 	 */
 	ProcessFoodGUI() {
-		// String userName;
+		intializeGUI();
 	}
 
 	/*
@@ -142,14 +142,14 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 	 * Generate list for given category of food
 	 */
 	public static List<String> fillComboBox(List<ProcessedFood> processedFoodList, String category) {
-		List<String> stringList = new ArrayList<>();
+		List<String> foodNameList = new ArrayList<>();
 
 		for (ProcessedFood processedFood : processedFoodList) {
 			if (processedFood.getCategory().equalsIgnoreCase(category)) {
-				stringList.add(processedFood.getName());
+				foodNameList.add(processedFood.getName());
 			}
 		}
-		return stringList;
+		return foodNameList;
 	}
 
 	/*
@@ -167,13 +167,13 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 		middlePanel.setBorder(border);
 		middlePanel.setBackground(Color.WHITE);
 
-		textArea = new JTextArea(userMessage, 20, 20);
-		textArea.setEditable(false);
-		textArea.setFont(textFont);
-		textArea.setMargin(new Insets(10, 10, 10, 10));
-		textArea.setLineWrap(true);
-		textArea.setWrapStyleWord(true);
-		middlePanel.add(textArea);
+		textAreaForMsg = new JTextArea(userMessage, 20, 20);
+		textAreaForMsg.setEditable(false);
+		textAreaForMsg.setFont(textFont);
+		textAreaForMsg.setMargin(new Insets(10, 10, 10, 10));
+		textAreaForMsg.setLineWrap(true);
+		textAreaForMsg.setWrapStyleWord(true);
+		middlePanel.add(textAreaForMsg);
 		middlePanel.revalidate();
 		middlePanel.repaint();
 	}
@@ -221,25 +221,11 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 
 		if (e.getSource() == quitBtn) {
 
-			System.exit(0);
+			quitButton();
 
 		} else if (e.getSource() == clearDisplayBtn) {
 
-			userName = null;
-			cerealsValue = null;
-			beveragesValue = null;
-
-			userNameTxt.setEditable(true);
-
-			userNameTxt.setText(null);
-			cerealsComboBox.setSelectedIndex(-1);
-			beveragesComboBox.setSelectedIndex(-1);
-
-			setMiddlePanel();
-
-			enterDataBtn.setEnabled(true);
-			displayChoiceBtn.setEnabled(false);
-			clearDisplayBtn.setEnabled(false);
+			clearDisplayBtnFun();
 
 		} else if (e.getSource() == enterDataBtn) {
 
@@ -250,6 +236,39 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 			displayChoiceBtnClickedAction();
 
 		}
+	}
+
+	/*
+	 * This function close the application
+	 */
+	private void quitButton() {
+		// TODO Auto-generated method stub
+		System.exit(0);
+
+	}
+
+	/*
+	 * This function will clear all the data from middle panel and set to same when
+	 * application started. Combo boxes cereals and beverages will still have data
+	 * loaded.
+	 */
+	private void clearDisplayBtnFun() {
+		userName = null;
+		cerealsValue = null;
+		beveragesValue = null;
+
+		userNameTxt.setEditable(true);
+
+		userNameTxt.setText(null);
+		cerealsComboBox.setSelectedIndex(-1);
+		beveragesComboBox.setSelectedIndex(-1);
+
+		setMiddlePanel();
+
+		enterDataBtn.setEnabled(true);
+		displayChoiceBtn.setEnabled(false);
+		clearDisplayBtn.setEnabled(false);
+
 	}
 
 	private ProcessedFood getSelectedProcessedFood(List<ProcessedFood> processedFoodList, String itemName,
@@ -281,6 +300,8 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 
 		// validate data input by user
 
+		ProcessedFood selectedIteam = null;
+
 		if (userName.equals(null) || userName.equals("")) {
 			errorMsg = "Please Enter User Name!!!";
 			errorMessage(errorMsg);
@@ -295,27 +316,17 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 					+ "You have selected '" + cerealsValue + "' in cereals and '" + beveragesValue
 					+ "' in beverages.\n\n" + "Click the 'Display Choices' button to view details of your choices.\n\n"
 					+ "Thank you.";
+
+			selectedIteam = getSelectedProcessedFood(foodList, cerealsValue, "cereals");
+			selectedFoodList.add(selectedIteam);
+
+			selectedIteam = getSelectedProcessedFood(foodList, beveragesValue, "beverage");
+			selectedFoodList.add(selectedIteam);
+
 			System.out.println(
 					"userName : " + userName + "::: Cereals :::" + cerealsValue + ":::Beverages :::" + beveragesValue);
 		}
-		textArea.setText(userMessage);
-
-		ProcessedFood pf = null;
-
-		pf = getSelectedProcessedFood(foodList, cerealsValue, "cereals");
-		if (pf != null) {
-			selectedFoodList.add(pf);
-		} else {
-			errorMessage("Null Pointer Exception in cereals Food");
-		}
-
-		pf = getSelectedProcessedFood(foodList, beveragesValue, "beverage");
-		if (pf != null) {
-			selectedFoodList.add(pf);
-		} else {
-			errorMessage("Null Pointer Exception in beverage Food");
-		}
-
+		textAreaForMsg.setText(userMessage);
 	}
 
 	/*
@@ -347,42 +358,42 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 
 		DefaultTableModel tableModel = new DefaultTableModel(dataHeader, 0);
 
-		table = new JTable(tableModel);
+		dataTable = new JTable(tableModel);
 		for (ProcessedFood selectedFood : selectedFoodList) {
 			tableModel.addRow(convertProcessedFoodToTableRow(selectedFood).toArray(new String[0]));
 		}
 		tableModel.addRow(setTotal(selectedFoodList).toArray(new String[0]));
 
-		table.setShowGrid(false);
-		table.setRowHeight(25);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		dataTable.setShowGrid(false);
+		dataTable.setRowHeight(25);
+		dataTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-		JTableHeader header = table.getTableHeader();
+		JTableHeader header = dataTable.getTableHeader();
 		header.setBackground(Color.WHITE);
 
 		// Adjust the width of the specified column in the table
 
-		for (int column = 0; column < table.getColumnCount(); column++) {
-			TableColumn tableColumn = table.getColumnModel().getColumn(column);
-			tableColumn.setHeaderRenderer(new HeaderRenderer());
-			int columnHeaderWidth = getColumnHeaderWidth(column);
-			int columnDataWidth = getColumnDataWidth(column);
+		for (int columnNumber = 0; columnNumber < dataTable.getColumnCount(); columnNumber++) {
+			TableColumn columnOfTable = dataTable.getColumnModel().getColumn(columnNumber);
+			columnOfTable.setHeaderRenderer(new HeaderRenderer());
+			int columnHeaderWidth = getColumnHeaderWidth(columnNumber);
+			int columnDataWidth = getColumnDataWidth(columnNumber);
 			int preferredWidth = Math.max(columnHeaderWidth, columnDataWidth);
-			tableColumn.setPreferredWidth(preferredWidth + 10);
+			columnOfTable.setPreferredWidth(preferredWidth + 10);
 		}
 
-		textAreaScroll = new JScrollPane(table);
-		textAreaScroll.setVisible(true);
-		textAreaScroll.setBackground(Color.WHITE);
+		displayDataScroll = new JScrollPane(dataTable);
+		displayDataScroll.setVisible(true);
+		displayDataScroll.setBackground(Color.WHITE);
 
-		textAreaScroll.setFont(textFont);
+		displayDataScroll.setFont(textFont);
 
-		textAreaScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		textAreaScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		textAreaScroll.getHorizontalScrollBar();
-		textAreaScroll.getViewport().setBackground(Color.white);
+		displayDataScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		displayDataScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		displayDataScroll.getHorizontalScrollBar();
+		displayDataScroll.getViewport().setBackground(Color.white);
 
-		middlePanel.add(textAreaScroll);
+		middlePanel.add(displayDataScroll);
 		middlePanel.revalidate();
 		middlePanel.repaint();
 	}
@@ -438,8 +449,8 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 	 * Removes header gird from the table
 	 */
 	class HeaderRenderer extends JLabel implements TableCellRenderer {
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean hasFocus, boolean isSelected,
-				int row, int col) {
+		public Component getTableCellRendererComponent(JTable dataTable, Object value, boolean hasFocus,
+				boolean isSelected, int row, int col) {
 			setText(value.toString());
 			setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 			return this;
@@ -449,28 +460,28 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 	/*
 	 * Calculated the width based on the column name
 	 */
-	private int getColumnHeaderWidth(int column) {
-		TableColumn tableColumn = table.getColumnModel().getColumn(column);
-		Object value = tableColumn.getHeaderValue();
-		TableCellRenderer renderer = tableColumn.getHeaderRenderer();
+	private int getColumnHeaderWidth(int columnNumber) {
+		TableColumn columnOfTable = dataTable.getColumnModel().getColumn(columnNumber);
+		Object value = columnOfTable.getHeaderValue();
+		TableCellRenderer renderer = columnOfTable.getHeaderRenderer();
 
 		if (renderer == null) {
-			renderer = table.getTableHeader().getDefaultRenderer();
+			renderer = dataTable.getTableHeader().getDefaultRenderer();
 		}
 
-		Component c = renderer.getTableCellRendererComponent(table, value, false, false, -1, column);
+		Component c = renderer.getTableCellRendererComponent(dataTable, value, false, false, -1, columnNumber);
 		return c.getPreferredSize().width;
 	}
 
 	/*
 	 * Calculate the width based on the widest cell renderer for the given column.
 	 */
-	private int getColumnDataWidth(int column) {
+	private int getColumnDataWidth(int columnNumber) {
 		int preferredWidth = 0;
-		int maxWidth = table.getColumnModel().getColumn(column).getMaxWidth();
+		int maxWidth = dataTable.getColumnModel().getColumn(columnNumber).getMaxWidth();
 
-		for (int row = 0; row < table.getRowCount(); row++) {
-			preferredWidth = Math.max(preferredWidth, getCellDataWidth(row, column));
+		for (int row = 0; row < dataTable.getRowCount(); row++) {
+			preferredWidth = Math.max(preferredWidth, getCellDataWidth(row, columnNumber));
 
 			// We've exceeded the maximum width, no need to check other rows
 
@@ -484,14 +495,14 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 	/*
 	 * Get the preferred width for the specified cell
 	 */
-	private int getCellDataWidth(int row, int column) {
+	private int getCellDataWidth(int row, int columnNumber) {
 		// Invoke the renderer for the cell to calculate the preferred width
 
-		TableCellRenderer cellRenderer = table.getCellRenderer(row, column);
-		Component c = table.prepareRenderer(cellRenderer, row, column);
-		int width = c.getPreferredSize().width + table.getIntercellSpacing().width;
+		TableCellRenderer cellRenderer = dataTable.getCellRenderer(row, columnNumber);
+		Component c = dataTable.prepareRenderer(cellRenderer, row, columnNumber);
+		int columnWidth = c.getPreferredSize().width + dataTable.getIntercellSpacing().width;
 
-		return width;
+		return columnWidth;
 	}
 
 	/*
@@ -499,11 +510,8 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 	 */
 	public static void main(String args[]) {
 
-		String fileName = "ausAssignment3_data.csv";
-
-		ProcessFoodGUI processFoodGUI = new ProcessFoodGUI();
-		DataFile dataFile = new DataFile(fileName, foodList);
-		processFoodGUI.intializeGUI();
-		// processFoodGUI.fillComboBox(foodList);
+		String dataFileName = "processedFoodData.csv";
+		new DataFile(dataFileName, foodList);
+		new ProcessFoodGUI();
 	}
 }
