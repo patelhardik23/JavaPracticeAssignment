@@ -17,7 +17,8 @@ public class DataFile {
 	public static final String SODIUM = "sodium";
 
 	/*
-	 * Default Constructor that will take file name as parameter and list to store data.
+	 * Default Constructor that will take file name as parameter and list to store
+	 * data.
 	 */
 	public DataFile(String fileName, List<ProcessedFood> itemList) {
 		super();
@@ -35,25 +36,26 @@ public class DataFile {
 			while ((s = bufferedReader.readLine()) != null) {
 				String[] productDetails = s.split(",");
 				if (productDetails.length > 0) {
-					String itemName = productDetails[0].trim();
-					String category = productDetails[1].trim();
-					String brand = productDetails[2].trim();
-					Integer serveSize = Integer.parseInt(productDetails[3].trim());
-					String unit = productDetails[4].trim();
-					List<Nutrient> nutrients = new ArrayList<>();
-					nutrients.add(new Nutrient(ENERGY, Float.parseFloat(productDetails[5].trim())));
-					nutrients.add(new Nutrient(PROTEIN, Float.parseFloat(productDetails[6].trim())));
-					nutrients.add(new Nutrient(FAT, Float.parseFloat(productDetails[7].trim())));
-					nutrients.add(new Nutrient(CARBOHYDRATE, Float.parseFloat(productDetails[8].trim())));
-					nutrients.add(new Nutrient(SUGAR, Float.parseFloat(productDetails[9].trim())));
-					nutrients.add(new Nutrient(DIETARY_FIBER, Float.parseFloat(productDetails[10].trim())));
-					nutrients.add(new Nutrient(SODIUM, Float.parseFloat(productDetails[11].trim())));
-					ProcessedFood itemInfo = new ProcessedFood(itemName, category, brand, serveSize, unit, nutrients);
-					processedFoodList.add(itemInfo);
+					String foodItemName = productDetails[0].trim();
+					String foodCategory = productDetails[1].trim();
+					String foodBrand = productDetails[2].trim();
+					Integer serveSizeOfFood = Integer.parseInt(productDetails[3].trim());
+					String servingUnit = productDetails[4].trim();
+					List<Nutrient> listOfNutrients = new ArrayList<>();
+					listOfNutrients.add(new Nutrient(ENERGY, Float.parseFloat(productDetails[5].trim())));
+					listOfNutrients.add(new Nutrient(PROTEIN, Float.parseFloat(productDetails[6].trim())));
+					listOfNutrients.add(new Nutrient(FAT, Float.parseFloat(productDetails[7].trim())));
+					listOfNutrients.add(new Nutrient(CARBOHYDRATE, Float.parseFloat(productDetails[8].trim())));
+					listOfNutrients.add(new Nutrient(SUGAR, Float.parseFloat(productDetails[9].trim())));
+					listOfNutrients.add(new Nutrient(DIETARY_FIBER, Float.parseFloat(productDetails[10].trim())));
+					listOfNutrients.add(new Nutrient(SODIUM, Float.parseFloat(productDetails[11].trim())));
+					ProcessedFood foodItemList = new ProcessedFood(foodItemName, foodCategory, foodBrand,
+							serveSizeOfFood, servingUnit, listOfNutrients);
+					processedFoodList.add(foodItemList);
 				}
 			}
 		} catch (IOException e) {
-            System.out.println(e.getMessage());
+			System.out.println(e.getMessage());
 		} finally {
 			try {
 				bufferedReader.close();

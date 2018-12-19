@@ -5,99 +5,83 @@ import java.util.List;
 /*
  * Inherited class Item in this class
  */
-public class ProcessedFood extends Item
-{
+public class ProcessedFood extends Item {
 
-    private String brandName;
-    private Integer serveSize;
-    private String unit;
-    private List<Nutrient> nutrient;
+	private String nameOfBrand;
+	private Integer servingSize;
+	private String servingUnit;
+	private List<Nutrient> listOfNutrient;
 
-    public ProcessedFood()
-    {
-    }
+	public ProcessedFood() {
+	}
 
-    /*
-     * Parameterize constructor that includes parameters of super class Item as well
-     */
-    public ProcessedFood(String itemName, String category, String brandName, Integer serveSize, String unit,
-                         List<Nutrient> nutrient)
-    {
-        super(itemName, category);
-        this.brandName = brandName;
-        this.serveSize = serveSize;
-        this.unit = unit;
-        this.nutrient = nutrient;
-    }
+	/*
+	 * Parameterize constructor that includes parameters of super class Item as well
+	 */
+	public ProcessedFood(String name, String category, String nameOfBrand, Integer servingSize, String servingUnit,
+			List<Nutrient> listOfNutrient) {
+		super(name, category);
+		this.nameOfBrand = nameOfBrand;
+		this.servingSize = servingSize;
+		this.servingUnit = servingUnit;
+		this.listOfNutrient = listOfNutrient;
+	}
 
-    /*
-     * Copy constructor to create copy of object
-     */
-    public ProcessedFood(ProcessedFood processedFood)
-    {
-        System.out.println("Copy Constructor called");
-        brandName = processedFood.brandName;
-        serveSize = processedFood.serveSize;
-        unit = processedFood.unit;
-        nutrient = processedFood.nutrient;
-    }
+	/*
+	 * Copy constructor to create copy of object
+	 */
+	public ProcessedFood(ProcessedFood processedFood) {
+		System.out.println("Copy Constructor called");
+		nameOfBrand = processedFood.nameOfBrand;
+		servingSize = processedFood.servingSize;
+		servingUnit = processedFood.servingUnit;
+		listOfNutrient = processedFood.listOfNutrient;
+	}
 
-    public String getBrandName()
-    {
-        return brandName;
-    }
+	public String getBrandName() {
+		return nameOfBrand;
+	}
 
-    public void setBrandName(String brandName)
-    {
-        this.brandName = brandName;
-    }
+	public void setBrandName(String brandName) {
+		this.nameOfBrand = brandName;
+	}
 
-    public Integer getServeSize()
-    {
-        return serveSize;
-    }
+	public Integer getServeSize() {
+		return servingSize;
+	}
 
-    public void setServeSize(Integer serveSize)
-    {
-        this.serveSize = serveSize;
-    }
+	public void setServeSize(Integer serveSize) {
+		this.servingSize = serveSize;
+	}
 
-    public String getUnit()
-    {
-        return unit;
-    }
+	public String getUnit() {
+		return servingUnit;
+	}
 
-    public void setUnit(String unit)
-    {
-        this.unit = unit;
-    }
+	public void setUnit(String unit) {
+		this.servingUnit = unit;
+	}
 
-    public List<Nutrient> getNutrient()
-    {
-        return nutrient;
-    }
+	public List<Nutrient> getNutrient() {
+		return listOfNutrient;
+	}
 
-    public Float getSingleNutrientFromList(List<Nutrient> nutrientList, String nutrientName)
-    {
-        Float data = 0.0f;
-        for (Nutrient nutrient : nutrientList)
-        {
-            if (nutrient.getName().equalsIgnoreCase(nutrientName))
-            {
-                data = nutrient.getQuantity();
-            }
-        }
-        return data;
-    }
+	public Float getSingleNutrientFromList(List<Nutrient> nutrientList, String nutrientName) {
+		Float data = 0.0f;
+		for (Nutrient nutrient : nutrientList) {
+			if (nutrient.getName().equalsIgnoreCase(nutrientName)) {
+				data = nutrient.getQuantity();
+			}
+		}
+		return data;
+	}
 
-    public void setNutrient(List<Nutrient> nutrient)
-    {
-        this.nutrient = nutrient;
-    }
+	public void setNutrient(List<Nutrient> nutrient) {
+		this.listOfNutrient = nutrient;
+	}
 
-    public String toString()
-    {
-        return "ProcessedFood [brandName=" + brandName + ", serveSize=" + serveSize + ", unit=" + unit + ", nutrient="
-                + nutrient + "]";
-    }
+	public String toString() {
+		return "ProcessedFood [brandName=" + nameOfBrand + ", serveSize=" + servingSize + ", unit=" + servingUnit
+				+ ", nutrient=" + listOfNutrient + "]";
+	}
 }
