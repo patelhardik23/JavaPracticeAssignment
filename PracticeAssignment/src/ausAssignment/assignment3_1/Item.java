@@ -1,7 +1,7 @@
 package ausAssignment.assignment3_1;
 
 public class Item {
-	private String itemName;
+	private String name;
 	private String category;
 
 	public Item() {
@@ -10,16 +10,16 @@ public class Item {
 	
 	public Item(String name, String category) {
 		
-		this.itemName = name;
+		this.name = name;
 		this.category = category;
 	}
 
 	public String getName() {
-		return itemName;
+		return name;
 	}
 
 	public void setName(String name) {
-		this.itemName = name;
+		this.name = name;
 	}
 
 	public String getCategory() {
@@ -31,7 +31,7 @@ public class Item {
 	}
 
 	public String toString() {
-		return "Item [name=" + itemName + ", category=" + category + "]";
+		return "Item [name=" + name + ", category=" + category + "]";
 	}
 
 }

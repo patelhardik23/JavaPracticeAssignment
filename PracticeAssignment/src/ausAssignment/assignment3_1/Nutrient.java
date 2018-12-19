@@ -1,35 +1,34 @@
 package ausAssignment.assignment3_1;
 
 public class Nutrient {
-	private String nutrientName;
-	private Float nutrientAmount;
-	
-	
-	public Nutrient(String nutrientName, Float nutrientAmount) {
+	private String name;
+	private Float quantity;
+
+	public Nutrient(String name, Float quantity) {
 		super();
-		this.nutrientName = nutrientName;
-		this.nutrientAmount = nutrientAmount;
-	}
-	
-	public String getNutrientName() {
-		return nutrientName;
+		this.name = name;
+		this.quantity = quantity;
 	}
 
-	public void setNutrientName(String nutrientName) {
-		this.nutrientName = nutrientName;
+	public String getName() {
+		return name;
 	}
 
-	public Float getNutrientAmount() {
-		return nutrientAmount;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public void setNutrientAmount(Float nutrientAmount) {
-		this.nutrientAmount = nutrientAmount;
+	public Float getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Float quantity) {
+		this.quantity = quantity;
 	}
 
 	@Override
 	public String toString() {
-		return "Nutrient [nutrientName=" + nutrientName + ", nutrientAmount=" + nutrientAmount + "]";
+		return "Nutrient [name=" + name + ", quantity=" + quantity + "]";
 	}
 
 }

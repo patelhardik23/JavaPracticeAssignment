@@ -40,8 +40,8 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 	private JButton quitBtn;
 	private JTable dataTable;
 	private Font textFont = new Font("", 0, 15);
+
 	String userMessage = "";
-	String welcomeMessage = "";
 	String userName = "";
 	String cerealsValue = "";
 	String beveragesValue = "";

@@ -13,7 +13,6 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
 {
 
     static List<ProcessedFood> foodList = new ArrayList<ProcessedFood>();
-//	static List<ProcessedFood> selectedFoodList = new ArrayList<ProcessedFood>();
 
     private JPanel panel1;
     private JTextField userNameTxt;
@@ -220,7 +219,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
     {
         if (e.getSource() == quitApplicationBtn)
         {
-            quitBtnAction();
+            quitApplicationBtnAction();
         }
         else if (e.getSource() == clearDataBtn)
         {
@@ -232,14 +231,14 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         }
         else if (e.getSource() == displayDataBtn)
         {
-            displayChoiceBtnClickedAction();
+            displayDataBtnClickedAction();
         }
     }
 
     /*
      * This function close the application
      */
-    private void quitBtnAction()
+    private void quitApplicationBtnAction()
     {
         // TODO Auto-generated method stub
         System.exit(0);
@@ -273,8 +272,6 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         Border border = BorderFactory.createLineBorder(new Color(0, 0, 182, 15), 8, true);
         panel2.setBorder(border);
         panel2.setBackground(Color.WHITE);
-
-        //textAreaForMsg = new MyTextArea(20, 20);
 
         textAreaForMsg = new JTextArea();
         textAreaForMsg.setEditable(false);
@@ -351,14 +348,6 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
                 + "' in beverages.\n\n" + "Click the 'Display Choices' button to view details of your choices.\n\n"
                 + "Thank you.";
 
-/*
-        selectedIteam = getSelectedProcessedFood(foodList, cerealsValue, "cereals");
-        selectedFoodList.add(selectedIteam);
-
-        selectedIteam = getSelectedProcessedFood(foodList, beveragesValue, "beverage");
-        selectedFoodList.add(selectedIteam);
-*/
-
         System.out.println(
                 "userName : " + userName + "::: Cereals :::" + cerealsValue + ":::Beverages :::" + beveragesValue);
         displayDataBtn.setEnabled(true);
@@ -382,27 +371,23 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
      * gets all the details given by user and fetch information accordingly and
      * display it in user readable format. here we have use tabular format.
      */
-    private void displayChoiceBtnClickedAction()
+    private void displayDataBtnClickedAction()
     {
 
         panel2.removeAll();
 
-        String tableHeaders[] = {"Food Type", "Item Name", "Brand", "Serve Size ", "Unit", "Energy", "Protein", "Fat",
+        String columnName[] = {"Food Type", "Item Name", "Brand", "Serve Size ", "Unit", "Energy", "Protein", "Fat",
                 "Carbohydrate", "Sugar", "Dietary Fibre", "Sodium"};
-
-        // Allow to create dynamic table
-
-        DefaultTableModel tableModel = new DefaultTableModel(tableHeaders, 0);
-
-        dataTable = new JTable(tableModel);
-
+        
         ProcessedFood processedFoodCereals = getSelectedProcessedFood(foodList, cerealsValue, "cereals");
         ProcessedFood processedFoodBeverage = getSelectedProcessedFood(foodList, beveragesValue, "beverage");
 
-        tableModel.addRow(createTableRowData(processedFoodCereals).toArray(new String[0]));
-        tableModel.addRow(createTableRowData(processedFoodBeverage).toArray(new String[0]));
-        tableModel.addRow(createTotalRowData(processedFoodCereals, processedFoodBeverage).toArray(new String[0]));
+        String rowData[][] = {createTableRowData(processedFoodCereals).toArray(new String[0]),
+        		createTableRowData(processedFoodBeverage).toArray(new String[0]),
+        		createTotalRowData(processedFoodCereals, processedFoodBeverage).toArray(new String[0])};
 
+        dataTable = new JTable(rowData,columnName);
+        
         dataTable.setRowHeight(25);
         dataTable.setBackground(new Color(0, 38, 77));
         dataTable.setForeground(Color.white);

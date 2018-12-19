@@ -21,12 +21,11 @@ public class DataFile {
 	 */
 	public DataFile(String fileName, List<ProcessedFood> itemList) {
 		super();
-		readBooksFromCSV(fileName, itemList);
+		getDataFromFile(fileName, itemList);
 	}
 
-	private static void readBooksFromCSV(String fileName, List<ProcessedFood> processedFoodList) {
+	private static void getDataFromFile(String fileName, List<ProcessedFood> processedFoodList) {
 
-		final String COMMADELIMITER = ",";
 		BufferedReader bufferedReader = null;
 
 		try {
@@ -34,7 +33,7 @@ public class DataFile {
 			String s = "";
 			bufferedReader.readLine();
 			while ((s = bufferedReader.readLine()) != null) {
-				String[] productDetails = s.split(COMMADELIMITER);
+				String[] productDetails = s.split(",");
 				if (productDetails.length > 0) {
 					String itemName = productDetails[0].trim();
 					String category = productDetails[1].trim();

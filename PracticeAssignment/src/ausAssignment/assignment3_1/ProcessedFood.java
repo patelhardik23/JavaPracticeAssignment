@@ -82,9 +82,9 @@ public class ProcessedFood extends Item
         Float data = 0.0f;
         for (Nutrient nutrient : nutrientList)
         {
-            if (nutrient.getNutrientName().equalsIgnoreCase(nutrientName))
+            if (nutrient.getName().equalsIgnoreCase(nutrientName))
             {
-                data = nutrient.getNutrientAmount();
+                data = nutrient.getQuantity();
             }
         }
         return data;
