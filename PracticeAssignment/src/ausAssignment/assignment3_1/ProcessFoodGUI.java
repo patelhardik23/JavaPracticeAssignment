@@ -1,21 +1,18 @@
 package ausAssignment.assignment3_1;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProcessFoodGUI extends JFrame implements ActionListener {
-
-	private static final Insets WEST_INSETS = new Insets(10, 0, 5, 15);
-	private static final Insets EAST_INSETS = new Insets(10, 20, 5, 0);
 
 	static List<ProcessedFood> foodList = new ArrayList<ProcessedFood>();
 	static List<ProcessedFood> selectedFoodList = new ArrayList<ProcessedFood>();
@@ -85,57 +82,55 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 	 */
 	private void setTopPanel() {
 
-		topPanel.setLayout(new GridBagLayout());
+		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
 		Border border = BorderFactory.createLineBorder(new Color(0, 0, 182, 15), 8, true);
 		topPanel.setBorder(border);
+		topPanel.setBackground(Color.WHITE);
 
-		GridBagConstraints gbc = new GridBagConstraints();
+		JPanel userNamePannel = new JPanel();
 
-		userNameLbl = new JLabel("User Name  ");
-		gbc = createGbc(0, 0, 1);
-		topPanel.add(userNameLbl, gbc);
+		userNamePannel.setBackground(Color.white);
+		userNameLbl = new JLabel();
+		userNameLbl.setIcon(new ImageIcon(new ImageIcon("images/userNameImg.png")
+				.getImage().getScaledInstance(200, 20, Image.SCALE_SMOOTH)));
+		userNamePannel.add(userNameLbl);
+		userNamePannel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
 
-		userNameTxt = new JTextField(10);
-		gbc = createGbc(1, 0, 3);
+		userNameTxt = new JTextField(83);
 		userNameLbl.setLabelFor(userNameTxt);
-		topPanel.add(userNameTxt, gbc);
+		userNamePannel.add(userNameTxt);
 
-		cerealsLbl = new JLabel("Cereals ");
-		gbc = createGbc(0, 1, 1);
-		topPanel.add(cerealsLbl, gbc);
+		topPanel.add(userNamePannel);
+
+		JPanel comboBoxPannel = new JPanel();
+		comboBoxPannel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+		comboBoxPannel.setBackground(Color.white);
+		cerealsLbl = new JLabel();//
+		cerealsLbl.setIcon(new ImageIcon(new ImageIcon("images/cereals-logo.jpg")
+				.getImage().getScaledInstance(200, 30, Image.SCALE_SMOOTH)));
+
+		comboBoxPannel.add(cerealsLbl);
 
 		cerealsComboBox = new JComboBox<String>(fillComboBox(foodList, "cereals").toArray(new String[0]));
-		gbc = createGbc(1, 1, 1);
 		cerealsLbl.setLabelFor(cerealsComboBox);
 		cerealsComboBox.setSelectedIndex(-1);
-		topPanel.add(cerealsComboBox, gbc);
+		cerealsComboBox.setPreferredSize(new Dimension(350, 25));
+		cerealsComboBox.setBackground(Color.white);
+		comboBoxPannel.add(cerealsComboBox);
 
-		beveragesLbl = new JLabel("Beverages   ");
-		gbc = createGbc(2, 1, 1);
-		topPanel.add(beveragesLbl, gbc);
+		beveragesLbl = new JLabel();
+		beveragesLbl.setIcon(new ImageIcon(new ImageIcon("images/beverages-logo.png")
+				.getImage().getScaledInstance(200, 30, Image.SCALE_SMOOTH)));
+
+		comboBoxPannel.add(beveragesLbl);
 
 		beveragesComboBox = new JComboBox<String>(fillComboBox(foodList, "beverage").toArray(new String[0]));
-		gbc = createGbc(3, 1, 1);
 		beveragesLbl.setLabelFor(beveragesComboBox);
 		beveragesComboBox.setSelectedIndex(-1);
-		topPanel.add(beveragesComboBox, gbc);
-	}
-
-	/*
-	 * set constraints for grid bag layout.
-	 */
-	private GridBagConstraints createGbc(int x, int y, int gridwidth) {
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridx = x;
-		gbc.gridy = y;
-		gbc.gridwidth = gridwidth;
-		gbc.gridheight = 1;
-		gbc.anchor = (x == 0 || x == 2) ? GridBagConstraints.EAST : GridBagConstraints.WEST;
-		gbc.fill = (x == 2 && y == 1) ? GridBagConstraints.FIRST_LINE_START : GridBagConstraints.HORIZONTAL;
-		gbc.insets = (x == 0 || x == 2) ? EAST_INSETS : WEST_INSETS;
-		gbc.weightx = (x == 0) ? 0.1 : 1.0;
-		gbc.weighty = (x == 0) ? 0.1 : 1.0;
-		return gbc;
+		beveragesComboBox.setPreferredSize(new Dimension(350, 25));
+		beveragesComboBox.setBackground(Color.white);
+		comboBoxPannel.add(beveragesComboBox);
+		topPanel.add(comboBoxPannel);
 	}
 
 	/*
@@ -167,15 +162,38 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 		middlePanel.setBorder(border);
 		middlePanel.setBackground(Color.WHITE);
 
-		textAreaForMsg = new JTextArea(userMessage, 20, 20);
+		textAreaForMsg = new MyTextArea(20, 20);
 		textAreaForMsg.setEditable(false);
+		textAreaForMsg.setText(userMessage);
 		textAreaForMsg.setFont(textFont);
 		textAreaForMsg.setMargin(new Insets(10, 10, 10, 10));
 		textAreaForMsg.setLineWrap(true);
 		textAreaForMsg.setWrapStyleWord(true);
+		textAreaForMsg.setBackground(new Color(1, 1, 1, (float) 0.01));
+		textAreaForMsg.setForeground(Color.white);
 		middlePanel.add(textAreaForMsg);
 		middlePanel.revalidate();
 		middlePanel.repaint();
+	}
+
+	public class MyTextArea extends JTextArea {
+
+		private Image img;
+
+		public MyTextArea(int a, int b) {
+			super(a, b);
+			try {
+				img = ImageIO.read(new File("images/welcomepage.jpg"));
+			} catch (IOException e) {
+				System.out.println(e.toString());
+			}
+		}
+
+		@Override
+		protected void paintComponent(Graphics g) {
+			g.drawImage(img, 0, 0, 1200, 400, null);
+			super.paintComponent(g);
+		}
 	}
 
 	/*
@@ -183,30 +201,46 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 	 */
 	private void setBottomPanel() {
 
-		bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 10));
+		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
 		Border border = BorderFactory.createLineBorder(new Color(0, 0, 182, 15), 8, true);
 		bottomPanel.setBorder(border);
-		commandLbl = new JLabel("Command Buttons");
-		commandLbl.setLabelFor(bottomPanel);
 
-		enterDataBtn = new JButton("Enter Data");
+		JPanel btm1 = new JPanel();
+		btm1.setBackground(Color.WHITE);
+		commandLbl = new JLabel(new ImageIcon(new ImageIcon("images/command.png")
+				.getImage().getScaledInstance(200, 50, Image.SCALE_SMOOTH)));
+		btm1.add(commandLbl);
 
-		displayChoiceBtn = new JButton("Display Choices");
+		JPanel btm2 = new JPanel();
+		btm2.setBackground(Color.WHITE);
+		btm2.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 10));
+		enterDataBtn = new JButton(new ImageIcon(new ImageIcon("images/enterdata.png")
+				.getImage().getScaledInstance(160, 68, Image.SCALE_SMOOTH)));
+		enterDataBtn.setBorder(null);
+		displayChoiceBtn = new JButton(
+				new ImageIcon(new ImageIcon("images/displaydata.png").getImage()
+						.getScaledInstance(150, 50, Image.SCALE_SMOOTH)));
+		displayChoiceBtn.setBorder(border);
 		displayChoiceBtn.setEnabled(false);
-		clearDisplayBtn = new JButton("Clear Display");
-		clearDisplayBtn.setEnabled(false);
-		quitBtn = new JButton("Quit");
+		clearDisplayBtn = new JButton(new ImageIcon(new ImageIcon("images/clear.png")
+				.getImage().getScaledInstance(150, 50, Image.SCALE_SMOOTH)));
 
+		clearDisplayBtn.setBorder(border);
+		quitBtn = new JButton(new ImageIcon(new ImageIcon("images/quit1.jpg")
+				.getImage().getScaledInstance(150, 50, Image.SCALE_SMOOTH)));
+		quitBtn.setBorder(border);
 		enterDataBtn.addActionListener(this::actionPerformed);
 		displayChoiceBtn.addActionListener(this::actionPerformed);
 		clearDisplayBtn.addActionListener(this::actionPerformed);
 		quitBtn.addActionListener(this::actionPerformed);
 
-		bottomPanel.add(commandLbl);
-		bottomPanel.add(enterDataBtn);
-		bottomPanel.add(displayChoiceBtn);
-		bottomPanel.add(clearDisplayBtn);
-		bottomPanel.add(quitBtn);
+		btm2.add(enterDataBtn);
+		btm2.add(displayChoiceBtn);
+		btm2.add(clearDisplayBtn);
+		btm2.add(quitBtn);
+
+		bottomPanel.add(btm1);
+		bottomPanel.add(btm2);
 	}
 
 	/*
@@ -233,6 +267,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 
 		} else if (e.getSource() == displayChoiceBtn) {
 
+			enterDataBtnClickedAction();
 			displayChoiceBtnClickedAction();
 
 		}
@@ -257,17 +292,12 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 		cerealsValue = null;
 		beveragesValue = null;
 
-		userNameTxt.setEditable(true);
-
 		userNameTxt.setText(null);
 		cerealsComboBox.setSelectedIndex(-1);
 		beveragesComboBox.setSelectedIndex(-1);
+		displayChoiceBtn.setEnabled(false);
 
 		setMiddlePanel();
-
-		enterDataBtn.setEnabled(true);
-		displayChoiceBtn.setEnabled(false);
-		clearDisplayBtn.setEnabled(false);
 
 	}
 
@@ -290,7 +320,6 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 	private void enterDataBtnClickedAction() {
 
 		selectedFoodList.clear();
-		displayChoiceBtn.setEnabled(true);
 
 		userName = userNameTxt.getText().trim();
 		cerealsValue = String.valueOf(cerealsComboBox.getSelectedItem());
@@ -302,16 +331,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 
 		ProcessedFood selectedIteam = null;
 
-		if (userName.equals(null) || userName.equals("")) {
-			errorMsg = "Please Enter User Name!!!";
-			errorMessage(errorMsg);
-		} else if (cerealsValue.equals(null) || cerealsValue.equals("null")) {
-			errorMsg = "Please select Cereals!!!";
-			errorMessage(errorMsg);
-		} else if (beveragesValue.equals(null) || beveragesValue.equals("null")) {
-			errorMsg = "Please Enter beverages!!!";
-			errorMessage(errorMsg);
-		} else {
+		if (userName.length() > 0 && cerealsValue != "null" && beveragesValue != "null") {
 			userMessage = "Hello  " + userName + "\n\n" + "Welcome to Processed Food Assessor System\n\n"
 					+ "You have selected '" + cerealsValue + "' in cereals and '" + beveragesValue
 					+ "' in beverages.\n\n" + "Click the 'Display Choices' button to view details of your choices.\n\n"
@@ -325,8 +345,22 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 
 			System.out.println(
 					"userName : " + userName + "::: Cereals :::" + cerealsValue + ":::Beverages :::" + beveragesValue);
+			displayChoiceBtn.setEnabled(true);
+		} else {
+
+			if (userName.equals(null) || userName.equals("")) {
+				errorMsg = "Please Enter User Name!!!";
+				errorMessage(errorMsg);
+			} else if (cerealsComboBox.getSelectedIndex() == -1) {
+				errorMsg = "Please select Cereals!!!";
+				errorMessage(errorMsg);
+			} else if (beveragesComboBox.getSelectedIndex() == -1) {
+				errorMsg = "Please Enter beverages!!!";
+				errorMessage(errorMsg);
+			}
 		}
 		textAreaForMsg.setText(userMessage);
+
 	}
 
 	/*
@@ -346,9 +380,6 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 	 */
 	private void displayChoiceBtnClickedAction() {
 
-		clearDisplayBtn.setEnabled(true);
-		enterDataBtn.setEnabled(false);
-		userNameTxt.setEditable(false);
 		middlePanel.removeAll();
 
 		String dataHeader[] = { "Food Type", "Item Name", "Brand", "Serve Size ", "Unit", "Energy", "Protein", "Fat",
@@ -359,39 +390,33 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 		DefaultTableModel tableModel = new DefaultTableModel(dataHeader, 0);
 
 		dataTable = new JTable(tableModel);
-		for (ProcessedFood selectedFood : selectedFoodList) {
-			tableModel.addRow(convertProcessedFoodToTableRow(selectedFood).toArray(new String[0]));
-		}
+
+		tableModel.addRow(convertProcessedFoodToTableRow(getSelectedProcessedFood(foodList, cerealsValue, "cereals"))
+				.toArray(new String[0]));
+		tableModel.addRow(convertProcessedFoodToTableRow(getSelectedProcessedFood(foodList, beveragesValue, "beverage"))
+				.toArray(new String[0]));
 		tableModel.addRow(setTotal(selectedFoodList).toArray(new String[0]));
 
-		dataTable.setShowGrid(false);
 		dataTable.setRowHeight(25);
-		dataTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
-		JTableHeader header = dataTable.getTableHeader();
-		header.setBackground(Color.WHITE);
+		dataTable.setBackground(new Color(26, 13, 0));
+		dataTable.setForeground(Color.white);
 
 		// Adjust the width of the specified column in the table
 
-		for (int columnNumber = 0; columnNumber < dataTable.getColumnCount(); columnNumber++) {
-			TableColumn columnOfTable = dataTable.getColumnModel().getColumn(columnNumber);
-			columnOfTable.setHeaderRenderer(new HeaderRenderer());
-			int columnHeaderWidth = getColumnHeaderWidth(columnNumber);
-			int columnDataWidth = getColumnDataWidth(columnNumber);
-			int preferredWidth = Math.max(columnHeaderWidth, columnDataWidth);
-			columnOfTable.setPreferredWidth(preferredWidth + 10);
-		}
+		dataTable.getColumnModel().getColumn(0).setPreferredWidth(78);
+		dataTable.getColumnModel().getColumn(1).setPreferredWidth(350);
+		dataTable.getColumnModel().getColumn(2).setPreferredWidth(95);
+		dataTable.getColumnModel().getColumn(3).setPreferredWidth(75);
+		dataTable.getColumnModel().getColumn(4).setPreferredWidth(45);
+		dataTable.getColumnModel().getColumn(6).setPreferredWidth(60);
+		dataTable.getColumnModel().getColumn(7).setPreferredWidth(40);
+		dataTable.getColumnModel().getColumn(8).setPreferredWidth(98);
+		dataTable.getColumnModel().getColumn(9).setPreferredWidth(55);
+		dataTable.getColumnModel().getColumn(10).setPreferredWidth(92);
+		dataTable.getColumnModel().getColumn(11).setPreferredWidth(60);
 
 		displayDataScroll = new JScrollPane(dataTable);
-		displayDataScroll.setVisible(true);
-		displayDataScroll.setBackground(Color.WHITE);
-
-		displayDataScroll.setFont(textFont);
-
-		displayDataScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		displayDataScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		displayDataScroll.getHorizontalScrollBar();
-		displayDataScroll.getViewport().setBackground(Color.white);
+		displayDataScroll.getViewport().setBackground(new Color(26, 13, 0));
 
 		middlePanel.add(displayDataScroll);
 		middlePanel.revalidate();
@@ -443,66 +468,6 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 			total += processedFood.getSelectedNutrient(processedFood.getNutrient(), nutrientType);
 		}
 		return String.format("%.2f", total);
-	}
-
-	/*
-	 * Removes header gird from the table
-	 */
-	class HeaderRenderer extends JLabel implements TableCellRenderer {
-		public Component getTableCellRendererComponent(JTable dataTable, Object value, boolean hasFocus,
-				boolean isSelected, int row, int col) {
-			setText(value.toString());
-			setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
-			return this;
-		}
-	}
-
-	/*
-	 * Calculated the width based on the column name
-	 */
-	private int getColumnHeaderWidth(int columnNumber) {
-		TableColumn columnOfTable = dataTable.getColumnModel().getColumn(columnNumber);
-		Object value = columnOfTable.getHeaderValue();
-		TableCellRenderer renderer = columnOfTable.getHeaderRenderer();
-
-		if (renderer == null) {
-			renderer = dataTable.getTableHeader().getDefaultRenderer();
-		}
-
-		Component c = renderer.getTableCellRendererComponent(dataTable, value, false, false, -1, columnNumber);
-		return c.getPreferredSize().width;
-	}
-
-	/*
-	 * Calculate the width based on the widest cell renderer for the given column.
-	 */
-	private int getColumnDataWidth(int columnNumber) {
-		int preferredWidth = 0;
-		int maxWidth = dataTable.getColumnModel().getColumn(columnNumber).getMaxWidth();
-
-		for (int row = 0; row < dataTable.getRowCount(); row++) {
-			preferredWidth = Math.max(preferredWidth, getCellDataWidth(row, columnNumber));
-
-			// We've exceeded the maximum width, no need to check other rows
-
-			if (preferredWidth >= maxWidth)
-				break;
-		}
-
-		return preferredWidth;
-	}
-
-	/*
-	 * Get the preferred width for the specified cell
-	 */
-	private int getCellDataWidth(int row, int columnNumber) {
-		// Invoke the renderer for the cell to calculate the preferred width
-
-		TableCellRenderer cellRenderer = dataTable.getCellRenderer(row, columnNumber);
-		Component c = dataTable.prepareRenderer(cellRenderer, row, columnNumber);
-		int columnWidth = c.getPreferredSize().width + dataTable.getIntercellSpacing().width;
-
-		return columnWidth;
 	}
 
 	/*
