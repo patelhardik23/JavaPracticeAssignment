@@ -11,6 +11,7 @@ import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +54,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 	List<String> cerealsValue;
 	List<String> beveragesValue;
 
+	DatabaseUtility dbConn = new DatabaseUtility();
 	/*
 	 * default constructor
 	 */
@@ -391,8 +393,16 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 			for (String beverageValue : beveragesValue) {
 				selectedIteam = getSelectedProcessedFood(foodList, beverageValue, "beverage");
 				selectedFoodList.add(selectedIteam);
-				System.out.println("userName : " + userName + ":::Beverages :::" + beverageValue);
+				System.out.println("userName : " + userName + ":::Beverages :::" + beverageValue);				
+			}
+			
+			try {
 				displayData();
+				System.out.println("in TRY:::"+userName);
+				dbConn.insertDataInUserData(userName);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
@@ -576,10 +586,11 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 	/*
 	 * main method to execute application
 	 */
-	public static void main(String args[]) {
+	public static void main(String args[]) throws SQLException {
 
 		String dataFileName = "processedFoodData.csv";
 		new DataFile(dataFileName, foodList);
 		new ProcessFoodGUI();
+		new DatabaseUtility();
 	}
 }

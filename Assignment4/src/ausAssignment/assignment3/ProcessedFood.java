@@ -6,7 +6,7 @@ import java.util.List;
  * Inherited class Item in this class
  */
 public class ProcessedFood extends Item {
-
+	
 	private Integer foodId;
 	private String brandName;
 	private Integer serveSize;
@@ -92,8 +92,11 @@ public class ProcessedFood extends Item {
 		this.nutrient = nutrient;
 	}
 
+	@Override
 	public String toString() {
-		return "ProcessedFood [brandName=" + brandName + ", serveSize=" + serveSize + ", unit=" + serveUnit
-				+ ", nutrient=" + nutrient + "]";
+		return "ProcessedFood [foodId=" + foodId + ", brandName=" + brandName + ", serveSize=" + serveSize
+				+ ", serveUnit=" + serveUnit + ", nutrient=" + nutrient + "]";
 	}
+
+	
 }

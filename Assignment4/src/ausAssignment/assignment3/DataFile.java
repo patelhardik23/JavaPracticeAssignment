@@ -3,11 +3,12 @@ package ausAssignment.assignment3;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DataFile {
-
+	
 	public enum CONSTANTS
 	{
 		ENERGY_KG("energyKg"),
@@ -34,14 +35,14 @@ public class DataFile {
 	/*
 	 * Default Constructor that will take file name as parameter and list to store data.
 	 */
-	public DataFile(String fileName, List<ProcessedFood> itemList) {
+	public DataFile(String fileName, List<ProcessedFood> itemList) throws SQLException {
 		super();
 		// TODO Auto-generated constructor stub
 		readBooksFromCSV(fileName, itemList);
 		System.out.println("File Loaded in Object");
 	}
 
-	private static void readBooksFromCSV(String fileName, List<ProcessedFood> itemList) {
+	private static void readBooksFromCSV(String fileName, List<ProcessedFood> itemList) throws SQLException {
 
 		final String COMMA_DELIMITER = ",";
 		BufferedReader br = null;
@@ -82,9 +83,15 @@ public class DataFile {
 					ProcessedFood itemInfo = new ProcessedFood(itemName, category, brand, serveSize, unit, nutrients);
 
 					itemList.add(itemInfo);
+					
+				//	db.insertDataInProcessedFood(category, itemName, brand, serveSize, unit);
+				//	db.insertNutrientDetailsForFood(itemInfo.getFoodId(), name, value);
 				}
 			}
 
+			DatabaseUtility dbConn = new DatabaseUtility();
+			dbConn.insertDataInProcessedFood(itemList);
+			
 		} catch (IOException e) {
 			// TODO: handle exception
 			e.printStackTrace();
