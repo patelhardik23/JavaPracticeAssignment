@@ -7,33 +7,52 @@ import java.util.List;
  */
 public class ProcessedFood extends Item {
 
+	private Integer foodId;
 	private String brandName;
 	private Integer serveSize;
-	private String unit;
+	private String serveUnit;
 	private List<Nutrient> nutrient;
 
 	public ProcessedFood() {
 	}
-/*
- * Parameterize constructor that includes parameters of super class Item as well
- */
+
+	/*
+	 * Parameterize constructor that includes parameters of super class Item as well
+	 */
 	public ProcessedFood(String itemName, String category, String brandName, Integer serveSize, String unit,
 			List<Nutrient> nutrient) {
 		super(itemName, category);
 		this.brandName = brandName;
 		this.serveSize = serveSize;
-		this.unit = unit;
+		this.serveUnit = unit;
 		this.nutrient = nutrient;
 	}
-/*
- * Copy constructor to create copy of object
- */
+
+	/*
+	 * Copy constructor to create copy of object
+	 */
 	public ProcessedFood(ProcessedFood processedFood) {
 		System.out.println("Copy Constructor called");
 		brandName = processedFood.brandName;
 		serveSize = processedFood.serveSize;
-		unit = processedFood.unit;
+		serveUnit = processedFood.serveUnit;
 		nutrient = processedFood.nutrient;
+	}
+
+	public Integer getFoodId() {
+		return foodId;
+	}
+
+	public void setFoodId(Integer foodId) {
+		this.foodId = foodId;
+	}
+
+	public String getServeUnit() {
+		return serveUnit;
+	}
+
+	public void setServeUnit(String serveUnit) {
+		this.serveUnit = serveUnit;
 	}
 
 	public String getBrandName() {
@@ -52,41 +71,29 @@ public class ProcessedFood extends Item {
 		this.serveSize = serveSize;
 	}
 
-	public String getUnit() {
-		return unit;
-	}
-
-	public void setUnit(String unit) {
-		this.unit = unit;
-	}
-
 	public List<Nutrient> getNutrient() {
 		return nutrient;
 	}
 
-	public Float getSelectedNutrient(List<Nutrient> nutrientList,String nutrientName)
-	{
-		for(Nutrient nutrient:nutrientList)
-		{
-			if(nutrient.getNutrientName().equalsIgnoreCase(nutrientName))
-			{
+	public Float getSelectedNutrient(List<Nutrient> nutrientList, String nutrientName) {
+		for (Nutrient nutrient : nutrientList) {
+			if (nutrient.getNutrientName().equalsIgnoreCase(nutrientName)) {
 				return nutrient.getNutrientAmount();
 			}
 		}
 		return 0.0f;
 	}
 
-	public String getSelectedNutrientInString(List<Nutrient> nutrientList,String nutrientName)
-    {
-        return String.format("%.2f",getSelectedNutrient(nutrientList,nutrientName));
-    }
+	public String getSelectedNutrientInString(List<Nutrient> nutrientList, String nutrientName) {
+		return String.format("%.2f", getSelectedNutrient(nutrientList, nutrientName));
+	}
 
 	public void setNutrient(List<Nutrient> nutrient) {
 		this.nutrient = nutrient;
 	}
 
 	public String toString() {
-		return "ProcessedFood [brandName=" + brandName + ", serveSize=" + serveSize + ", unit=" + unit + ", nutrient="
-				+ nutrient + "]";
+		return "ProcessedFood [brandName=" + brandName + ", serveSize=" + serveSize + ", unit=" + serveUnit
+				+ ", nutrient=" + nutrient + "]";
 	}
 }

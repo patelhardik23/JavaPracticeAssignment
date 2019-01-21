@@ -28,8 +28,10 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 	private JLabel cerealsLbl;
 	private JRadioButton highProtinRbtn;
 	private JRadioButton lowSugurRbtn;
-	private JList   <String> cerealsList;
-	static JList<String> beveragesList;
+	private JScrollPane cerealsScrollList;
+	private JList<String> cerealsListBox;
+	private JScrollPane beveragesScrollList;
+	static JList<String> beveragesListBox;
 	private JLabel beveragesLbl;
 	ButtonGroup group;
 
@@ -48,8 +50,8 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 
 	String userMessage = "";
 	String userName = "";
-	String cerealsValue = "";
-	String beveragesValue = "";
+	List<String> cerealsValue;
+	List<String> beveragesValue;
 
 	/*
 	 * default constructor
@@ -62,7 +64,8 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 	 * Load all component in frame and set constraints on frame
 	 */
 	public void intializeGUI() {
-
+		this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
+	//	this.setLayout(new FlowLayout());
 		topPanel = new JPanel();
 		middlePanel = new JPanel();
 		bottomPanel = new JPanel();
@@ -78,7 +81,8 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 		this.setSize(800, 500);
 		this.setName("Processed Food Assessor System");
 		this.setTitle("Processed Food Assessor System");
-		this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
+
+		
 		this.setVisible(true);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -105,61 +109,61 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 		userNameLbl.setLabelFor(userNameTxt);
 		topPanel.add(userNameTxt, gbc);
 		userNameTxt.getDocument().addDocumentListener(new DocumentListener() {
-			
+
 			@Override
 			public void removeUpdate(DocumentEvent arg0) {
 				// TODO Auto-generated method stub
 				welcomeMessage();
 			}
-			
+
 			@Override
 			public void insertUpdate(DocumentEvent arg0) {
 				// TODO Auto-generated method stub
 				welcomeMessage();
 			}
-			
+
 			@Override
 			public void changedUpdate(DocumentEvent arg0) {
 				// TODO Auto-generated method stub
 				welcomeMessage();
 			}
 		});
-		
+
 		highProtinRbtn = new JRadioButton("High Protin");
 		gbc = createGbc(1, 1, 1);
 		topPanel.add(highProtinRbtn, gbc);
-		
+
 		lowSugurRbtn = new JRadioButton("Low Sugur");
 		gbc = createGbc(3, 1, 1);
 		topPanel.add(lowSugurRbtn, gbc);
-		
+
 		group = new ButtonGroup();
 		group.add(highProtinRbtn);
 		group.add(lowSugurRbtn);
-		
+
 		cerealsLbl = new JLabel("Cereals ");
 		gbc = createGbc(0, 2, 1);
 		topPanel.add(cerealsLbl, gbc);
 
-		//cerealsComboBox = new JComboBox<String>(fillComboBox(foodList, "cereals").toArray(new String[0]));
-		cerealsList  = new JList<>(fillComboBox(foodList, "cereals").toArray(new String[0]));
-		cerealsList.setVisibleRowCount(4);
-		JScrollPane cerealsScrollList = new JScrollPane(cerealsList);
+		cerealsListBox = new JList<>(fillComboBox(foodList, "cereals").toArray(new String[0]));
+		cerealsListBox.setVisibleRowCount(3);
+		cerealsScrollList = new JScrollPane(cerealsListBox);
 		gbc = createGbc(1, 2, 1);
 		cerealsLbl.setLabelFor(cerealsScrollList);
-		cerealsList.setSelectedIndex(-1);
+		cerealsScrollList.setVisible(true);
+		cerealsScrollList.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		cerealsScrollList.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		topPanel.add(cerealsScrollList, gbc);
 
 		beveragesLbl = new JLabel("Beverages   ");
 		gbc = createGbc(2, 2, 1);
 		topPanel.add(beveragesLbl, gbc);
 
-		beveragesList = new JList<>(fillComboBox(foodList, "beverage").toArray(new String[0]));
-		beveragesList.setVisibleRowCount(4);
-		JScrollPane beveragesScrollList = new JScrollPane(beveragesList);
+		beveragesListBox = new JList<>(fillComboBox(foodList, "beverage").toArray(new String[0]));
+		beveragesListBox.setVisibleRowCount(3);
+		beveragesScrollList = new JScrollPane(beveragesListBox);
 		gbc = createGbc(3, 2, 1);
 		beveragesLbl.setLabelFor(beveragesScrollList);
-		beveragesList.setSelectedIndex(-1);
 		topPanel.add(beveragesScrollList, gbc);
 	}
 
@@ -199,20 +203,18 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 	 */
 	private void setMiddlePanel() {
 		middlePanel.removeAll();
-		 
-		userMessage = "Hello User!!!\n\n"+
-						"Welcome to Processed Food Assessor System\n\n"+
-						"> Enter your name.\n\n"+
-						"> Select your preference of 'High Protein' or 'Low Sugar'\n\n"+
-						"> Use ctl+click to select multiple items from the displayed List\n\n"+
-						"> Use the DisplayChoices button to view details of your choices";
+
+		userMessage = "Hello User!!!\n\n" + "Welcome to Processed Food Assessor System\n\n" + "> Enter your name.\n\n"
+				+ "> Select your preference of 'High Protein' or 'Low Sugar'\n\n"
+				+ "> Use ctl+click to select multiple items from the displayed List\n\n"
+				+ "> Use the DisplayChoices button to view details of your choices";
 
 		middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.X_AXIS));
 		Border border = BorderFactory.createLineBorder(new Color(0, 0, 182, 15), 8, true);
 		middlePanel.setBorder(border);
 		middlePanel.setBackground(Color.WHITE);
 
-		textAreaForMsg = new JTextArea(userMessage, 20, 20);
+		textAreaForMsg = new JTextArea(userMessage, 15, 70);
 		textAreaForMsg.setEditable(false);
 		textAreaForMsg.setFont(textFont);
 		textAreaForMsg.setMargin(new Insets(10, 10, 10, 10));
@@ -263,10 +265,10 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == userNameTxt) {
+		if (e.getSource() == userNameTxt) {
 			welcomeMessage();
-			
-		}else if (e.getSource() == quitBtn) {
+
+		} else if (e.getSource() == quitBtn) {
 
 			quitButton();
 
@@ -285,13 +287,19 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 		}
 	}
 
+	private void saveSelectionBtnClickedAction() {
+		// TODO Auto-generated method stub
+		System.out.println("Save Slected Button Clicket");
+		errorMessage("User Data Stored Successfully!!!");
+	}
+
 	private void welcomeMessage() {
 		// TODO Auto-generated method stub
 		userName = userNameTxt.getText().trim();
-		userMessage = "Hello " + userName+ " Welcome to Processed Food Assessor System\n\n"+
-					"> Select your preference of 'High Protein' or 'Low Sugar'\n\n"+
-					"> Use ctl+click to select multiple items from the displayed List\n\n"+
-					"> Use the DisplayChoices button to view details of your choices";
+		userMessage = "Hello " + userName + " Welcome to Processed Food Assessor System\n\n"
+				+ "> Select your preference of 'High Protein' or 'Low Sugar'\n\n"
+				+ "> Use ctl+click to select multiple items from the displayed List\n\n"
+				+ "> Use the DisplayChoices button to view details of your choices";
 
 		textAreaForMsg.setText(userMessage);
 	}
@@ -318,14 +326,15 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 		userNameTxt.setEditable(true);
 		userNameTxt.setText(null);
 		group.clearSelection();
-		cerealsList.setSelectedIndex(-1);
-		beveragesList.setSelectedIndex(-1);
+		cerealsListBox.clearSelection();
+		beveragesListBox.clearSelection();
 
 		setMiddlePanel();
 
 		displayChoicesBtn.setEnabled(true);
 		saveSelectionsBtn.setEnabled(false);
 		clearDisplayBtn.setEnabled(false);
+		this.pack();
 
 	}
 
@@ -351,9 +360,10 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 		saveSelectionsBtn.setEnabled(true);
 
 		userName = userNameTxt.getText().trim();
-		cerealsValue = String.valueOf(cerealsList.getSelectedValuesList());
-		beveragesValue = String.valueOf(beveragesList.getSelectedValuesList());
-
+		cerealsValue = cerealsListBox.getSelectedValuesList();
+		beveragesValue = beveragesListBox.getSelectedValuesList();
+		System.out.println(cerealsValue.toString());
+		System.out.println(beveragesValue.toString());
 		String errorMsg = "";
 
 		// validate data input by user
@@ -363,31 +373,28 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 		if (userName.equals(null) || userName.equals("")) {
 			errorMsg = "Please Enter User Name!!!";
 			errorMessage(errorMsg);
-		}else if(!(highProtinRbtn.isSelected() ||  lowSugurRbtn.isSelected())) {
+		} else if (!(highProtinRbtn.isSelected() || lowSugurRbtn.isSelected())) {
 			errorMsg = "Please select Preferences!!!";
 			errorMessage(errorMsg);
-		}else if (cerealsValue.equals(null) || cerealsValue.equals("null")) {
+		} else if (cerealsValue.isEmpty()) {
 			errorMsg = "Please select Cereals!!!";
 			errorMessage(errorMsg);
-		} else if (beveragesValue.equals(null) || beveragesValue.equals("null")) {
+		} else if (beveragesValue.isEmpty()) {
 			errorMsg = "Please Enter beverages!!!";
 			errorMessage(errorMsg);
 		} else {
-			userMessage = "Hello  " + userName + "\n\n" + "Welcome to Processed Food Assessor System\n\n"
-					+ "You have selected '" + cerealsValue + "' in cereals and '" + beveragesValue
-					+ "' in beverages.\n\n" + "Click the 'Display Choices' button to view details of your choices.\n\n"
-					+ "Thank you.";
-
-			selectedIteam = getSelectedProcessedFood(foodList, cerealsValue, "cereals");
-			selectedFoodList.add(selectedIteam);
-
-			selectedIteam = getSelectedProcessedFood(foodList, beveragesValue, "beverage");
-			selectedFoodList.add(selectedIteam);
-
-			System.out.println(
-					"userName : " + userName + "::: Cereals :::" + cerealsValue + ":::Beverages :::" + beveragesValue);
+			for (String cerealValue : cerealsValue) {
+				selectedIteam = getSelectedProcessedFood(foodList, cerealValue, "cereals");
+				selectedFoodList.add(selectedIteam);
+				System.out.println("Cereals :::" + cerealValue);
+			}
+			for (String beverageValue : beveragesValue) {
+				selectedIteam = getSelectedProcessedFood(foodList, beverageValue, "beverage");
+				selectedFoodList.add(selectedIteam);
+				System.out.println("userName : " + userName + ":::Beverages :::" + beverageValue);
+				displayData();
+			}
 		}
-		textAreaForMsg.setText(userMessage);
 	}
 
 	/*
@@ -405,15 +412,15 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 	 * gets all the details given by user and fetch information accordingly and
 	 * display it in user readable format. here we have use tabular format.
 	 */
-	private void saveSelectionBtnClickedAction() {
+	private void displayData() {
 
 		clearDisplayBtn.setEnabled(true);
 		displayChoicesBtn.setEnabled(false);
 		userNameTxt.setEditable(false);
 		middlePanel.removeAll();
 
-		String dataHeader[] = { "Food Type", "Item Name", "Brand", "Serve Size ", "Unit", "Energy", "Protein", "Fat",
-				"Carbohydrate", "Sugar", "Dietary Fibre", "Sodium" };
+		String dataHeader[] = { "Food Type", "Item Name", "Brand", "Serve Size", "Unit", "Energy", "Protein", "Fat",
+				"Carb", "Sugar", "Fibre", "Sodium" };
 
 		// Allow to create dynamic table
 
@@ -442,7 +449,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 			int preferredWidth = Math.max(columnHeaderWidth, columnDataWidth);
 			columnOfTable.setPreferredWidth(preferredWidth + 10);
 		}
-
+		
 		displayDataScroll = new JScrollPane(dataTable);
 		displayDataScroll.setVisible(true);
 		displayDataScroll.setBackground(Color.WHITE);
@@ -451,12 +458,12 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 
 		displayDataScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		displayDataScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		displayDataScroll.getHorizontalScrollBar();
 		displayDataScroll.getViewport().setBackground(Color.white);
-
+		
 		middlePanel.add(displayDataScroll);
 		middlePanel.revalidate();
 		middlePanel.repaint();
+		this.pack();
 	}
 
 	/*
@@ -470,7 +477,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener {
 		dataList.add(pf.getName());
 		dataList.add(pf.getBrandName());
 		dataList.add(pf.getServeSize().toString());
-		dataList.add(pf.getUnit());
+		dataList.add(pf.getServeUnit());
 		dataList.add(pf.getSelectedNutrientInString(pf.getNutrient(), DataFile.CONSTANTS.ENERGY_KG.getValue()));
 		dataList.add(pf.getSelectedNutrientInString(pf.getNutrient(), DataFile.CONSTANTS.PROTEIN_GM.getValue()));
 		dataList.add(pf.getSelectedNutrientInString(pf.getNutrient(), DataFile.CONSTANTS.FAT_GM.getValue()));
