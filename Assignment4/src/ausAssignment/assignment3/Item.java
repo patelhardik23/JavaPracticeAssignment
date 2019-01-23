@@ -1,37 +1,45 @@
 package ausAssignment.assignment3;
 
-public class Item {
-	private String itemName;
-	private String category;
+public class Item
+{
+    private String itemName;
+    private String category;
 
-	public Item() {
-		super();
-	}
-	
-	public Item(String name, String category) {
-		
-		this.itemName = name;
-		this.category = category;
-	}
+    public Item()
+    {
+        super();
+    }
 
-	public String getName() {
-		return itemName;
-	}
+    public Item(String name, String category)
+    {
 
-	public void setName(String name) {
-		this.itemName = name;
-	}
+        this.itemName = name;
+        this.category = category;
+    }
 
-	public String getCategory() {
-		return category;
-	}
+    public String getName()
+    {
+        return itemName;
+    }
 
-	public void setCategory(String category) {
-		this.category = category;
-	}
+    public void setName(String name)
+    {
+        this.itemName = name;
+    }
 
-	public String toString() {
-		return "Item [name=" + itemName + ", category=" + category + "]";
-	}
+    public String getCategory()
+    {
+        return category;
+    }
+
+    public void setCategory(String category)
+    {
+        this.category = category;
+    }
+
+    public String toString()
+    {
+        return "Item [name=" + itemName + ", category=" + category + "]";
+    }
 
 }
