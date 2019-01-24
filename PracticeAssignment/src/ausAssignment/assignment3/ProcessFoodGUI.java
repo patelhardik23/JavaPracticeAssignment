@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProcessFoodGUI extends JFrame implements ActionListener {
+public class ProcessFoodGUI extends JFrame  implements ActionListener {
 
 	private static final Insets WEST_INSETS = new Insets(10, 0, 5, 15);
 	private static final Insets EAST_INSETS = new Insets(10, 20, 5, 0);

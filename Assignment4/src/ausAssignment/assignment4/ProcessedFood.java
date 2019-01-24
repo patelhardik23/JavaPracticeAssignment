@@ -1,5 +1,6 @@
 package ausAssignment.assignment4;
 
+import java.util.Comparator;
 import java.util.List;
 
 /*
@@ -16,6 +17,7 @@ public class ProcessedFood extends Item
 
     public ProcessedFood()
     {
+        super();
     }
 
     /*
@@ -114,12 +116,56 @@ public class ProcessedFood extends Item
         this.nutrient = nutrient;
     }
 
+    public static Comparator<ProcessedFood> sortByHighProtien = new Comparator<ProcessedFood>()
+    {
+        @Override
+        public int compare(ProcessedFood o1, ProcessedFood o2)
+        {
+            Float o1Float = o1.getSelectedNutrient(o1.getNutrient(), DataFile.CONSTANTS.PROTEIN_GM.getValue());
+            Float o2Float = o2.getSelectedNutrient(o2.getNutrient(), DataFile.CONSTANTS.PROTEIN_GM.getValue());
+
+            if(o1Float > o2Float)
+            {
+                return -1;
+            }
+            if(o1Float < o2Float)
+            {
+                return 1;
+            }
+            return 0;
+        }
+    };
+
+    public static Comparator<ProcessedFood> sortByLowSugar = new Comparator<ProcessedFood>()
+    {
+        @Override
+        public int compare(ProcessedFood o1, ProcessedFood o2)
+        {
+
+            Float o1Float = o1.getSelectedNutrient(o1.getNutrient(), DataFile.CONSTANTS.SUGAR_GM.getValue());
+            Float o2Float = o2.getSelectedNutrient(o2.getNutrient(), DataFile.CONSTANTS.SUGAR_GM.getValue());
+
+            if(o1Float > o2Float)
+            {
+                return 1;
+            }
+            if(o1Float < o2Float)
+            {
+                return -1;
+            }
+            return 0;
+        }
+    };
+
     @Override
     public String toString()
     {
-        return "ProcessedFood [foodId=" + foodId + ", brandName=" + brandName
-               + ", serveSize=" + serveSize + ", serveUnit=" + serveUnit
-               + ", nutrient=" + nutrient + "]";
+        return "ProcessedFood{" +
+                "foodId=" + foodId +
+                ", brandName='" + brandName + '\'' +
+                ", serveSize=" + serveSize +
+                ", serveUnit='" + serveUnit + '\'' +
+                ", nutrient=" + nutrient +
+                "} " + super.toString();
     }
-
 }
