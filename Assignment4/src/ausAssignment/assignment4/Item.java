@@ -1,4 +1,4 @@
-package ausAssignment.assignment3;
+package ausAssignment.assignment4;
 
 public class Item
 {

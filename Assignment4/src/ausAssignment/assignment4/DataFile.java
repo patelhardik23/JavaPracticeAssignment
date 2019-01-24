@@ -1,4 +1,4 @@
-package ausAssignment.assignment3;
+package ausAssignment.assignment4;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
