@@ -220,11 +220,20 @@ public class DatabaseUtility
 
     public void insertDataInUserData(String userName) throws SQLException
     {
-
-        String insertUserQuery = " INSERT INTO User (name) VALUES (?)";
-        psStmt = conn.prepareStatement(insertUserQuery);
-        psStmt.setString(1, userName);
-        psStmt.executeUpdate();
+        String checkUserQuery = "select * from User where name = '" + userName
+                                + "'";
+        ResultSet rs4 = getData(checkUserQuery);
+        if (rs4.next())
+        {
+            System.out.println("User All ready registered in system.");
+        }
+        else
+        {
+            String insertUserQuery = " INSERT INTO User (name) VALUES (?)";
+            psStmt = conn.prepareStatement(insertUserQuery);
+            psStmt.setString(1, userName);
+            psStmt.executeUpdate();
+        }
     }
 
     public void insertDataInUserFood(String user,

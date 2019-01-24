@@ -51,6 +51,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
     private JTextField userNameTxt;
     private JLabel userNameLbl;
     private JLabel cerealsLbl;
+    private JLabel PreferenceLbl;
     private JRadioButton highProtinRbtn;
     private JRadioButton lowSugurRbtn;
     private JScrollPane cerealsScrollList;
@@ -75,6 +76,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
 
     String userMessage = "";
     String userName = "";
+    String Preference = "";
     List<String> cerealsValue;
     List<String> beveragesValue;
 
@@ -161,13 +163,21 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
             }
         });
 
+        PreferenceLbl = new JLabel("Preferences");
+        gbc = createGbc(0, 1, 1);
+        topPanel.add(PreferenceLbl, gbc);
+
         highProtinRbtn = new JRadioButton("High Protin");
         gbc = createGbc(1, 1, 1);
         topPanel.add(highProtinRbtn, gbc);
+        highProtinRbtn.setActionCommand("protinGm");
+        highProtinRbtn.addActionListener(this::actionPerformed);
 
         lowSugurRbtn = new JRadioButton("Low Sugur");
-        gbc = createGbc(3, 1, 1);
+        gbc = createGbc(2, 1, 1);
         topPanel.add(lowSugurRbtn, gbc);
+        lowSugurRbtn.setActionCommand("sugarGm");
+        lowSugurRbtn.addActionListener(this::actionPerformed);
 
         group = new ButtonGroup();
         group.add(highProtinRbtn);
@@ -319,6 +329,13 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         {
             welcomeMessage();
 
+        }
+        else if (e.getSource() == lowSugurRbtn
+                 || e.getSource() == highProtinRbtn)
+        {
+            Preference = group.getSelection().getActionCommand();
+            System.out.println("Selected Radio Button: "
+                               + group.getSelection().getActionCommand());
         }
         else if (e.getSource() == quitBtn)
         {
@@ -484,6 +501,8 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
             {
                 dbConn.insertDataInUserData(userName);
                 displayData();
+                System.out.println("UserName:::" + userName + ":::Preference:::"
+                                   + Preference);
 
             }
             catch (SQLException e)
@@ -532,6 +551,8 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         {
             tableModel.addRow(convertProcessedFoodToTableRow(selectedFood)
                     .toArray(new String[0]));
+
+            System.out.println("SelectedFood::::" + selectedFood);
         }
         tableModel.addRow(setTotal(selectedFoodList).toArray(new String[0]));
 
