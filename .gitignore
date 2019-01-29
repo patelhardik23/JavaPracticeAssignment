@@ -1,11 +1,11 @@
 /target/
 /.classpath
-/.project
+
 .idea/
 /bin/
 /doc/
 /.settings/
-.project
+
 .classpath
 .springBeans
 
@@ -105,7 +105,7 @@ build/
 ##### LOG4J Properties #####
 #log4j.*xml
 #log4j.*properties
-
+*.class
 
 ##### PYTHON Properties #####
 *.pyc
