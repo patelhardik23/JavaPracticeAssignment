@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ProcessFoodGUI extends JFrame implements ActionListener
 {
-
+    ProcessedFood selectedIteam = null;
     static DatabaseUtility dbConn = new DatabaseUtility();
     private static final Insets WEST_INSETS = new Insets(10, 0, 5, 15);
     private static final Insets EAST_INSETS = new Insets(10, 20, 5, 0);
@@ -373,9 +373,13 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
 
     private void saveSelectionBtnClickedAction() throws SQLException
     {
-        if(validateUserData()) {
-        errorMessage("User Data Stored Successfully!!!");
-        dbConn.insertDataInUserFood(userName, selectedFoodList);
+        if (validateUserData() && selectedIteam != null)
+        {
+            errorMessage("User Data Stored Successfully!!!");
+            dbConn.insertDataInUserFood(userName, selectedFoodList);
+        }
+        else {
+            errorMessage("Press Display Data Button!!!");
         }
     }
 
@@ -444,17 +448,12 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
      */
     private Boolean validateUserData()
     {
-
-        selectedFoodList.clear();
-
         userName = userNameTxt.getText().trim();
         cerealsValue = cerealsListBox.getSelectedValuesList();
         beveragesValue = beveragesListBox.getSelectedValuesList();
         String errorMsg = "";
 
         // validate data input by user
-
-        ProcessedFood selectedIteam = null;
 
         if (userName.equals(null) || userName.equals(""))
         {
@@ -480,30 +479,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
             errorMessage(errorMsg);
             return false;
         }
-        for (String cerealValue : cerealsValue)
-        {
-            selectedIteam = getSelectedProcessedFood(foodList, cerealValue,
-                    "cereals");
-            selectedFoodList.add(selectedIteam);
-        }
-        for (String beverageValue : beveragesValue)
-        {
-            selectedIteam = getSelectedProcessedFood(foodList, beverageValue,
-                    "beverage");
-            selectedFoodList.add(selectedIteam);
-        }
 
-        try
-        {
-            dbConn.insertDataInUserData(userName);
-            System.out.println(
-                    "UserName:::" + userName + ":::Preference:::" + Preference);
-
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
         return true;
     }
 
@@ -526,67 +502,96 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
      */
     private void displayData()
     {
-        if(validateUserData()) {
-            
-        middlePanel.removeAll();
-
-        String dataHeader[] = {
-                "Food Type", "Item Name", "Brand", "Serve Size", "Unit",
-                "Energy", "Protein", "Fat", "Carb", "Sugar", "Fibre", "Sodium"
-        };
-
-        // Allow to create dynamic table
-
-        DefaultTableModel tableModel = new DefaultTableModel(dataHeader, 0);
-
-        dataTable = new JTable(tableModel);
-        for (ProcessedFood selectedFood : selectedFoodList)
+        if (validateUserData())
         {
-            tableModel.addRow(convertProcessedFoodToTableRow(selectedFood)
-                    .toArray(new String[0]));
+            selectedFoodList.clear();
+            for (String cerealValue : cerealsValue)
+            {
+                selectedIteam = getSelectedProcessedFood(foodList, cerealValue,
+                        "cereals");
+                selectedFoodList.add(selectedIteam);
+            }
+            for (String beverageValue : beveragesValue)
+            {
+                selectedIteam = getSelectedProcessedFood(foodList,
+                        beverageValue, "beverage");
+                selectedFoodList.add(selectedIteam);
+            }
 
-            System.out.println("SelectedFood::::" + selectedFood);
+            try
+            {
+                dbConn.insertDataInUserData(userName);
+                System.out.println("UserName:::" + userName + ":::Preference:::"
+                                   + Preference);
+
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+
+            middlePanel.removeAll();
+
+            String dataHeader[] = {
+                    "Food Type", "Item Name", "Brand", "Serve Size", "Unit",
+                    "Energy", "Protein", "Fat", "Carb", "Sugar", "Fibre",
+                    "Sodium"
+            };
+
+            // Allow to create dynamic table
+
+            DefaultTableModel tableModel = new DefaultTableModel(dataHeader, 0);
+
+            dataTable = new JTable(tableModel);
+            for (ProcessedFood selectedFood : selectedFoodList)
+            {
+                tableModel.addRow(convertProcessedFoodToTableRow(selectedFood)
+                        .toArray(new String[0]));
+
+                System.out.println("SelectedFood::::" + selectedFood);
+            }
+            tableModel
+                    .addRow(setTotal(selectedFoodList).toArray(new String[0]));
+
+            dataTable.setShowGrid(false);
+            dataTable.setRowHeight(25);
+            dataTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+            JTableHeader header = dataTable.getTableHeader();
+            header.setBackground(Color.WHITE);
+
+            // Adjust the width of the specified column in the table
+
+            for (int columnNumber = 0; columnNumber < dataTable
+                    .getColumnCount(); columnNumber++)
+            {
+                TableColumn columnOfTable = dataTable.getColumnModel()
+                        .getColumn(columnNumber);
+
+                int columnHeaderWidth = getColumnHeaderWidth(columnNumber);
+                int columnDataWidth = getColumnDataWidth(columnNumber);
+                int preferredWidth = Math.max(columnHeaderWidth,
+                        columnDataWidth);
+                columnOfTable.setPreferredWidth(preferredWidth + 10);
+            }
+
+            displayDataScroll = new JScrollPane(dataTable);
+            displayDataScroll.setVisible(true);
+            displayDataScroll.setBackground(Color.WHITE);
+
+            displayDataScroll.setFont(textFont);
+
+            displayDataScroll.setVerticalScrollBarPolicy(
+                    ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+            displayDataScroll.setHorizontalScrollBarPolicy(
+                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            displayDataScroll.getViewport().setBackground(Color.white);
+
+            middlePanel.add(displayDataScroll);
+            middlePanel.revalidate();
+            middlePanel.repaint();
+            this.pack();
         }
-        tableModel.addRow(setTotal(selectedFoodList).toArray(new String[0]));
-
-        dataTable.setShowGrid(false);
-        dataTable.setRowHeight(25);
-        dataTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
-        JTableHeader header = dataTable.getTableHeader();
-        header.setBackground(Color.WHITE);
-
-        // Adjust the width of the specified column in the table
-
-        for (int columnNumber = 0; columnNumber < dataTable
-                .getColumnCount(); columnNumber++)
-        {
-            TableColumn columnOfTable = dataTable.getColumnModel()
-                    .getColumn(columnNumber);
-
-            int columnHeaderWidth = getColumnHeaderWidth(columnNumber);
-            int columnDataWidth = getColumnDataWidth(columnNumber);
-            int preferredWidth = Math.max(columnHeaderWidth, columnDataWidth);
-            columnOfTable.setPreferredWidth(preferredWidth + 10);
-        }
-
-        displayDataScroll = new JScrollPane(dataTable);
-        displayDataScroll.setVisible(true);
-        displayDataScroll.setBackground(Color.WHITE);
-
-        displayDataScroll.setFont(textFont);
-
-        displayDataScroll.setVerticalScrollBarPolicy(
-                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        displayDataScroll.setHorizontalScrollBarPolicy(
-                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        displayDataScroll.getViewport().setBackground(Color.white);
-
-        middlePanel.add(displayDataScroll);
-        middlePanel.revalidate();
-        middlePanel.repaint();
-        this.pack();
-       }
     }
 
     /*
