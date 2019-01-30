@@ -2,6 +2,14 @@ package ausAssignment.assignment4;
 
 public class Nutrient
 {
+    public static final String ENERGY_KG ="energyKg";
+    public static final String PROTEIN_GM = "proteinGm";
+    public static final String FAT_GM = "fatGm";
+    public static final String CARBOHYDRATE_GM = "carbohydrateGm";
+    public static final String SUGAR_GM = "sugarGm";
+    public static final String DIETARY_FIBRE = "dietaryFibre";
+    public static final String SODIUM_MG = "sodiumMg";
+
     private String nutrientName;
     private Float nutrientAmount;
 

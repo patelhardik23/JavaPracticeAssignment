@@ -273,9 +273,9 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         displayChoicesBtn = new JButton("Display Choices");
 
         saveSelectionsBtn = new JButton("Save Selections");
-        
+
         clearDisplayBtn = new JButton("Clear Display");
-        
+
         quitBtn = new JButton("Quit");
 
         displayChoicesBtn.addActionListener(this::actionPerformed);
@@ -598,19 +598,19 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         dataList.add(pf.getServeSize().toString());
         dataList.add(pf.getServeUnit());
         dataList.add(pf.getSelectedNutrientInString(pf.getNutrient(),
-                                                    DataFile.CONSTANTS.ENERGY_KG.getValue()));
+                                                    Nutrient.ENERGY_KG));
         dataList.add(pf.getSelectedNutrientInString(pf.getNutrient(),
-                                                    DataFile.CONSTANTS.PROTEIN_GM.getValue()));
+                                                    Nutrient.PROTEIN_GM));
         dataList.add(pf.getSelectedNutrientInString(pf.getNutrient(),
-                                                    DataFile.CONSTANTS.FAT_GM.getValue()));
+                                                    Nutrient.FAT_GM));
         dataList.add(pf.getSelectedNutrientInString(pf.getNutrient(),
-                                                    DataFile.CONSTANTS.CARBOHYDRATE_GM.getValue()));
+                                                    Nutrient.CARBOHYDRATE_GM));
         dataList.add(pf.getSelectedNutrientInString(pf.getNutrient(),
-                                                    DataFile.CONSTANTS.SUGAR_GM.getValue()));
+                                                    Nutrient.SUGAR_GM));
         dataList.add(pf.getSelectedNutrientInString(pf.getNutrient(),
-                                                    DataFile.CONSTANTS.DIETARY_FIBRE.getValue()));
+                                                    Nutrient.DIETARY_FIBRE));
         dataList.add(pf.getSelectedNutrientInString(pf.getNutrient(),
-                                                    DataFile.CONSTANTS.SODIUM_MG.getValue()));
+                                                    Nutrient.SODIUM_MG));
         return dataList;
     }
 
@@ -623,19 +623,19 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         dataList.add("");
         dataList.add("");
         dataList.add(makeTotal(processedFoodList,
-                               DataFile.CONSTANTS.ENERGY_KG.getValue()));
+                               Nutrient.ENERGY_KG));
         dataList.add(makeTotal(processedFoodList,
-                               DataFile.CONSTANTS.PROTEIN_GM.getValue()));
+                               Nutrient.PROTEIN_GM));
         dataList.add(makeTotal(processedFoodList,
-                               DataFile.CONSTANTS.FAT_GM.getValue()));
+                               Nutrient.FAT_GM));
         dataList.add(makeTotal(processedFoodList,
-                               DataFile.CONSTANTS.CARBOHYDRATE_GM.getValue()));
+                               Nutrient.CARBOHYDRATE_GM));
         dataList.add(makeTotal(processedFoodList,
-                               DataFile.CONSTANTS.SUGAR_GM.getValue()));
+                               Nutrient.SUGAR_GM));
         dataList.add(makeTotal(processedFoodList,
-                               DataFile.CONSTANTS.DIETARY_FIBRE.getValue()));
+                               Nutrient.DIETARY_FIBRE));
         dataList.add(makeTotal(processedFoodList,
-                               DataFile.CONSTANTS.SODIUM_MG.getValue()));
+                               Nutrient.SODIUM_MG));
         return dataList;
     }
 

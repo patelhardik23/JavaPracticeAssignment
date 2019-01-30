@@ -10,29 +10,6 @@ import java.util.List;
 public class DataFile
 {
 
-    public enum CONSTANTS
-    {
-        ENERGY_KG("energyKg"),
-        PROTEIN_GM("proteinGm"),
-        FAT_GM("fatGm"),
-        CARBOHYDRATE_GM("carbohydrateGm"),
-        SUGAR_GM("sugarGm"),
-        DIETARY_FIBRE("dietaryFibre"),
-        SODIUM_MG("sodiumMg");
-
-        private String value;
-
-        public String getValue()
-        {
-            return this.value;
-        }
-
-        private CONSTANTS(String value)
-        {
-            this.value = value;
-        }
-    }
-
     /*
      * Default Constructor that will take file name as parameter and list to
      * store data.
@@ -82,21 +59,21 @@ public class DataFile
 
                     List<Nutrient> nutrients = new ArrayList<>();
 
-                    nutrients.add(new Nutrient(CONSTANTS.ENERGY_KG.getValue(),
+                    nutrients.add(new Nutrient(Nutrient.ENERGY_KG,
                                                Float.parseFloat(productDetails[5].trim())));
-                    nutrients.add(new Nutrient(CONSTANTS.PROTEIN_GM.getValue(),
+                    nutrients.add(new Nutrient(Nutrient.PROTEIN_GM,
                                                Float.parseFloat(productDetails[6].trim())));
-                    nutrients.add(new Nutrient(CONSTANTS.FAT_GM.getValue(),
+                    nutrients.add(new Nutrient(Nutrient.FAT_GM,
                                                Float.parseFloat(productDetails[7].trim())));
                     nutrients.add(new Nutrient(
-                            CONSTANTS.CARBOHYDRATE_GM.getValue(),
+                            Nutrient.CARBOHYDRATE_GM,
                             Float.parseFloat(productDetails[8].trim())));
-                    nutrients.add(new Nutrient(CONSTANTS.SUGAR_GM.getValue(),
+                    nutrients.add(new Nutrient(Nutrient.SUGAR_GM,
                                                Float.parseFloat(productDetails[9].trim())));
                     nutrients.add(new Nutrient(
-                            CONSTANTS.DIETARY_FIBRE.getValue(),
+                            Nutrient.DIETARY_FIBRE,
                             Float.parseFloat(productDetails[10].trim())));
-                    nutrients.add(new Nutrient(CONSTANTS.SODIUM_MG.getValue(),
+                    nutrients.add(new Nutrient(Nutrient.SODIUM_MG,
                                                Float.parseFloat(productDetails[11].trim())));
 
                     ProcessedFood itemInfo = new ProcessedFood(itemName,

@@ -121,8 +121,8 @@ public class ProcessedFood extends Item
         @Override
         public int compare(ProcessedFood o1, ProcessedFood o2)
         {
-            Float o1Float = o1.getSelectedNutrient(o1.getNutrient(), DataFile.CONSTANTS.PROTEIN_GM.getValue());
-            Float o2Float = o2.getSelectedNutrient(o2.getNutrient(), DataFile.CONSTANTS.PROTEIN_GM.getValue());
+            Float o1Float = o1.getSelectedNutrient(o1.getNutrient(), Nutrient.PROTEIN_GM);
+            Float o2Float = o2.getSelectedNutrient(o2.getNutrient(), Nutrient.PROTEIN_GM);
 
             if(o1Float > o2Float)
             {
@@ -142,8 +142,8 @@ public class ProcessedFood extends Item
         public int compare(ProcessedFood o1, ProcessedFood o2)
         {
 
-            Float o1Float = o1.getSelectedNutrient(o1.getNutrient(), DataFile.CONSTANTS.SUGAR_GM.getValue());
-            Float o2Float = o2.getSelectedNutrient(o2.getNutrient(), DataFile.CONSTANTS.SUGAR_GM.getValue());
+            Float o1Float = o1.getSelectedNutrient(o1.getNutrient(), Nutrient.SUGAR_GM);
+            Float o2Float = o2.getSelectedNutrient(o2.getNutrient(), Nutrient.SUGAR_GM);
 
             if(o1Float > o2Float)
             {
