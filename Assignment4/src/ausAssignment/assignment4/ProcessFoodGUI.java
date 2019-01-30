@@ -104,7 +104,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
 
         topPanel.setLayout(new GridBagLayout());
         Border border = BorderFactory.createLineBorder(new Color(0, 0, 182, 15),
-                                                       8, true);
+                8, true);
         topPanel.setBorder(border);
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -123,21 +123,18 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
             @Override
             public void removeUpdate(DocumentEvent arg0)
             {
-                // TODO Auto-generated method stub
                 welcomeMessage();
             }
 
             @Override
             public void insertUpdate(DocumentEvent arg0)
             {
-                // TODO Auto-generated method stub
                 welcomeMessage();
             }
 
             @Override
             public void changedUpdate(DocumentEvent arg0)
             {
-                // TODO Auto-generated method stub
                 welcomeMessage();
             }
         });
@@ -234,15 +231,15 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         middlePanel.removeAll();
 
         userMessage = "Hello User!!!\n\n"
-                + "Welcome to Processed Food Assessor System\n\n"
-                + "> Enter your name.\n\n"
-                + "> Select your preference of 'High Protein' or 'Low Sugar'\n\n"
-                + "> Use ctl+click to select multiple items from the displayed List\n\n"
-                + "> Use the DisplayChoices button to view details of your choices";
+                      + "Welcome to Processed Food Assessor System\n\n"
+                      + "> Enter your name.\n\n"
+                      + "> Select your preference of 'High Protein' or 'Low Sugar'\n\n"
+                      + "> Use ctl+click to select multiple items from the displayed List\n\n"
+                      + "> Use the DisplayChoices button to view details of your choices";
 
         middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.X_AXIS));
         Border border = BorderFactory.createLineBorder(new Color(0, 0, 182, 15),
-                                                       8, true);
+                8, true);
         middlePanel.setBorder(border);
         middlePanel.setBackground(Color.WHITE);
 
@@ -265,7 +262,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
 
         bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 10));
         Border border = BorderFactory.createLineBorder(new Color(0, 0, 182, 15),
-                                                       8, true);
+                8, true);
         bottomPanel.setBorder(border);
         commandLbl = new JLabel("Command Buttons");
         commandLbl.setLabelFor(bottomPanel);
@@ -306,17 +303,24 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         }
         else if (e.getSource() == lowSugurRbtn)
         {
-            /*System.out.println("Before Sorting");
-            foodList.stream().forEach(a -> System.out.println(a.getName() + " : " + a.getSelectedNutrient(a.getNutrient(), DataFile.CONSTANTS.PROTEIN_GM.getValue())));*/
+            /*
+             * System.out.println("Before Sorting"); foodList.stream().forEach(a
+             * -> System.out.println(a.getName() + " : " +
+             * a.getSelectedNutrient(a.getNutrient(),
+             * DataFile.CONSTANTS.PROTEIN_GM.getValue())));
+             */
 
             Collections.sort(foodList, ProcessedFood.sortByLowSugar);
             reFillScrollLists();
 
             /*
-            System.out.println("After Sorting");
-            foodList.stream().forEach(a -> System.out.println(a.getName() + " : " + a.getSelectedNutrient(a.getNutrient(), DataFile.CONSTANTS.PROTEIN_GM.getValue())));*/
+             * System.out.println("After Sorting"); foodList.stream().forEach(a
+             * -> System.out.println(a.getName() + " : " +
+             * a.getSelectedNutrient(a.getNutrient(),
+             * DataFile.CONSTANTS.PROTEIN_GM.getValue())));
+             */
         }
-        else if(e.getSource() == highProtinRbtn)
+        else if (e.getSource() == highProtinRbtn)
         {
             Collections.sort(foodList, ProcessedFood.sortByHighProtien);
             reFillScrollLists();
@@ -334,7 +338,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         else if (e.getSource() == displayChoicesBtn)
         {
 
-            displayChoiceBtnClickedAction();
+            displayData();
 
         }
         else if (e.getSource() == saveSelectionsBtn)
@@ -346,7 +350,6 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
             }
             catch (SQLException e1)
             {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
 
@@ -355,10 +358,12 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
 
     private void reFillScrollLists()
     {
-        cerealsListBox = new JList<>(fillComboBox(foodList, "cereals").toArray(new String[0]));
+        cerealsListBox = new JList<>(
+                fillComboBox(foodList, "cereals").toArray(new String[0]));
         cerealsListBox.setVisibleRowCount(3);
         cerealsScrollList.setViewportView(cerealsListBox);
-        beveragesListBox = new JList<>(fillComboBox(foodList, "beverage").toArray(new String[0]));
+        beveragesListBox = new JList<>(
+                fillComboBox(foodList, "beverage").toArray(new String[0]));
         beveragesListBox.setVisibleRowCount(3);
         beveragesScrollList.setViewportView(beveragesListBox);
         revalidate();
@@ -368,21 +373,20 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
 
     private void saveSelectionBtnClickedAction() throws SQLException
     {
-        // TODO Auto-generated method stub
-        displayChoiceBtnClickedAction();
+        if(validateUserData()) {
         errorMessage("User Data Stored Successfully!!!");
         dbConn.insertDataInUserFood(userName, selectedFoodList);
+        }
     }
 
     private void welcomeMessage()
     {
-        // TODO Auto-generated method stub
         userName = userNameTxt.getText().trim();
         userMessage = "Hello " + userName
-                + " Welcome to Processed Food Assessor System\n\n"
-                + "> Select your preference of 'High Protein' or 'Low Sugar'\n\n"
-                + "> Use ctl+click to select multiple items from the displayed List\n\n"
-                + "> Use the DisplayChoices button to view details of your choices";
+                      + " Welcome to Processed Food Assessor System\n\n"
+                      + "> Select your preference of 'High Protein' or 'Low Sugar'\n\n"
+                      + "> Use ctl+click to select multiple items from the displayed List\n\n"
+                      + "> Use the DisplayChoices button to view details of your choices";
 
         textAreaForMsg.setText(userMessage);
     }
@@ -392,9 +396,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
      */
     private void quitButton()
     {
-        // TODO Auto-generated method stub
         System.exit(0);
-
     }
 
     /*
@@ -427,7 +429,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         for (ProcessedFood processedFood : processedFoodList)
         {
             if (processedFood.getName().equalsIgnoreCase(itemName)
-                    && processedFood.getCategory().equalsIgnoreCase(category))
+                && processedFood.getCategory().equalsIgnoreCase(category))
             {
                 return processedFood;
             }
@@ -440,7 +442,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
      * name and choices of different food category cereals and beverages and
      * display message to user accordingly.
      */
-    private void displayChoiceBtnClickedAction()
+    private Boolean validateUserData()
     {
 
         selectedFoodList.clear();
@@ -458,51 +460,51 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         {
             errorMsg = "Please Enter User Name!!!";
             errorMessage(errorMsg);
+            return false;
         }
-        else if (!(highProtinRbtn.isSelected() || lowSugurRbtn.isSelected()))
+        if (!(highProtinRbtn.isSelected() || lowSugurRbtn.isSelected()))
         {
             errorMsg = "Please select Preferences!!!";
             errorMessage(errorMsg);
+            return false;
         }
-        else if (cerealsValue.isEmpty())
+        if (cerealsValue.isEmpty())
         {
             errorMsg = "Please select Cereals!!!";
             errorMessage(errorMsg);
+            return false;
         }
-        else if (beveragesValue.isEmpty())
+        if (beveragesValue.isEmpty())
         {
             errorMsg = "Please Enter beverages!!!";
             errorMessage(errorMsg);
+            return false;
         }
-        else
+        for (String cerealValue : cerealsValue)
         {
-            for (String cerealValue : cerealsValue)
-            {
-                selectedIteam = getSelectedProcessedFood(foodList, cerealValue,
-                                                         "cereals");
-                selectedFoodList.add(selectedIteam);
-            }
-            for (String beverageValue : beveragesValue)
-            {
-                selectedIteam = getSelectedProcessedFood(foodList,
-                                                         beverageValue, "beverage");
-                selectedFoodList.add(selectedIteam);
-            }
-
-            try
-            {
-                dbConn.insertDataInUserData(userName);
-                displayData();
-                System.out.println("UserName:::" + userName + ":::Preference:::"
-                                           + Preference);
-
-            }
-            catch (SQLException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            selectedIteam = getSelectedProcessedFood(foodList, cerealValue,
+                    "cereals");
+            selectedFoodList.add(selectedIteam);
         }
+        for (String beverageValue : beveragesValue)
+        {
+            selectedIteam = getSelectedProcessedFood(foodList, beverageValue,
+                    "beverage");
+            selectedFoodList.add(selectedIteam);
+        }
+
+        try
+        {
+            dbConn.insertDataInUserData(userName);
+            System.out.println(
+                    "UserName:::" + userName + ":::Preference:::" + Preference);
+
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     /*
@@ -512,7 +514,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
     {
 
         JOptionPane optionPane = new JOptionPane(errorMsg,
-                                                 JOptionPane.ERROR_MESSAGE);
+                JOptionPane.INFORMATION_MESSAGE);
         JDialog dialog = optionPane.createDialog("Data Validation");
         dialog.setAlwaysOnTop(true);
         dialog.setVisible(true);
@@ -524,6 +526,8 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
      */
     private void displayData()
     {
+        if(validateUserData()) {
+            
         middlePanel.removeAll();
 
         String dataHeader[] = {
@@ -539,7 +543,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         for (ProcessedFood selectedFood : selectedFoodList)
         {
             tableModel.addRow(convertProcessedFoodToTableRow(selectedFood)
-                                      .toArray(new String[0]));
+                    .toArray(new String[0]));
 
             System.out.println("SelectedFood::::" + selectedFood);
         }
@@ -582,6 +586,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         middlePanel.revalidate();
         middlePanel.repaint();
         this.pack();
+       }
     }
 
     /*
@@ -598,19 +603,19 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         dataList.add(pf.getServeSize().toString());
         dataList.add(pf.getServeUnit());
         dataList.add(pf.getSelectedNutrientInString(pf.getNutrient(),
-                                                    Nutrient.ENERGY_KG));
+                Nutrient.ENERGY_KG));
         dataList.add(pf.getSelectedNutrientInString(pf.getNutrient(),
-                                                    Nutrient.PROTEIN_GM));
+                Nutrient.PROTEIN_GM));
         dataList.add(pf.getSelectedNutrientInString(pf.getNutrient(),
-                                                    Nutrient.FAT_GM));
+                Nutrient.FAT_GM));
         dataList.add(pf.getSelectedNutrientInString(pf.getNutrient(),
-                                                    Nutrient.CARBOHYDRATE_GM));
+                Nutrient.CARBOHYDRATE_GM));
         dataList.add(pf.getSelectedNutrientInString(pf.getNutrient(),
-                                                    Nutrient.SUGAR_GM));
+                Nutrient.SUGAR_GM));
         dataList.add(pf.getSelectedNutrientInString(pf.getNutrient(),
-                                                    Nutrient.DIETARY_FIBRE));
+                Nutrient.DIETARY_FIBRE));
         dataList.add(pf.getSelectedNutrientInString(pf.getNutrient(),
-                                                    Nutrient.SODIUM_MG));
+                Nutrient.SODIUM_MG));
         return dataList;
     }
 
@@ -622,25 +627,18 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         dataList.add("");
         dataList.add("");
         dataList.add("");
-        dataList.add(makeTotal(processedFoodList,
-                               Nutrient.ENERGY_KG));
-        dataList.add(makeTotal(processedFoodList,
-                               Nutrient.PROTEIN_GM));
-        dataList.add(makeTotal(processedFoodList,
-                               Nutrient.FAT_GM));
-        dataList.add(makeTotal(processedFoodList,
-                               Nutrient.CARBOHYDRATE_GM));
-        dataList.add(makeTotal(processedFoodList,
-                               Nutrient.SUGAR_GM));
-        dataList.add(makeTotal(processedFoodList,
-                               Nutrient.DIETARY_FIBRE));
-        dataList.add(makeTotal(processedFoodList,
-                               Nutrient.SODIUM_MG));
+        dataList.add(makeTotal(processedFoodList, Nutrient.ENERGY_KG));
+        dataList.add(makeTotal(processedFoodList, Nutrient.PROTEIN_GM));
+        dataList.add(makeTotal(processedFoodList, Nutrient.FAT_GM));
+        dataList.add(makeTotal(processedFoodList, Nutrient.CARBOHYDRATE_GM));
+        dataList.add(makeTotal(processedFoodList, Nutrient.SUGAR_GM));
+        dataList.add(makeTotal(processedFoodList, Nutrient.DIETARY_FIBRE));
+        dataList.add(makeTotal(processedFoodList, Nutrient.SODIUM_MG));
         return dataList;
     }
 
     private String makeTotal(List<ProcessedFood> processedFoodList,
-                             String nutrientType)
+            String nutrientType)
     {
         Float total = 0.0f;
         for (ProcessedFood processedFood : processedFoodList)
@@ -650,7 +648,6 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         }
         return String.format("%.2f", total);
     }
-
 
     /*
      * Calculated the width based on the column name
@@ -668,7 +665,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         }
 
         Component c = renderer.getTableCellRendererComponent(dataTable, value,
-                                                             false, false, -1, columnNumber);
+                false, false, -1, columnNumber);
         return c.getPreferredSize().width;
     }
 
@@ -685,7 +682,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         for (int row = 0; row < dataTable.getRowCount(); row++)
         {
             preferredWidth = Math.max(preferredWidth,
-                                      getCellDataWidth(row, columnNumber));
+                    getCellDataWidth(row, columnNumber));
 
             // We've exceeded the maximum width, no need to check other rows
 
@@ -704,11 +701,11 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         // Invoke the renderer for the cell to calculate the preferred width
 
         TableCellRenderer cellRenderer = dataTable.getCellRenderer(row,
-                                                                   columnNumber);
+                columnNumber);
         Component c = dataTable.prepareRenderer(cellRenderer, row,
-                                                columnNumber);
+                columnNumber);
         int columnWidth = c.getPreferredSize().width
-                + dataTable.getIntercellSpacing().width;
+                          + dataTable.getIntercellSpacing().width;
 
         return columnWidth;
     }
