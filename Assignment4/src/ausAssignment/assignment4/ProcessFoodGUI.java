@@ -373,13 +373,17 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
 
     private void saveSelectionBtnClickedAction() throws SQLException
     {
-        if (validateUserData() && selectedIteam != null)
+        if (validateUserData())
         {
-            errorMessage("User Data Stored Successfully!!!");
-            dbConn.insertDataInUserFood(userName, selectedFoodList);
-        }
-        else {
-            errorMessage("Press Display Data Button!!!");
+            if (selectedIteam != null)
+            {
+                errorMessage("User Data Stored Successfully!!!");
+                dbConn.insertDataInUserFood(userName, selectedFoodList);
+            }
+            else
+            {
+                errorMessage("Press Display Data Button!!!");
+            }
         }
     }
 
@@ -413,6 +417,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         userName = null;
         cerealsValue = null;
         beveragesValue = null;
+        selectedIteam = null;
 
         userNameTxt.setEditable(true);
         userNameTxt.setText(null);
