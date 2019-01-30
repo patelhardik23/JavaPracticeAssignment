@@ -165,13 +165,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         cerealsLbl = new JLabel("Cereals ");
         gbc = createGbc(0, 2, 1);
         topPanel.add(cerealsLbl, gbc);
-/*
 
-        cerealsListBox = new JList<>(
-                fillComboBox(foodList, "cereals").toArray(new String[0]));
-        cerealsListBox.setVisibleRowCount(3);
-        cerealsScrollList = new JScrollPane(cerealsListBox);
-*/
         cerealsScrollList = new JScrollPane();
         gbc = createGbc(1, 2, 1);
         cerealsLbl.setLabelFor(cerealsScrollList);
@@ -185,11 +179,6 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         beveragesLbl = new JLabel("Beverages   ");
         gbc = createGbc(2, 2, 1);
         topPanel.add(beveragesLbl, gbc);
-
-/*        beveragesListBox = new JList<>(
-                fillComboBox(foodList, "beverage").toArray(new String[0]));
-        beveragesListBox.setVisibleRowCount(3);
-        beveragesScrollList = new JScrollPane(beveragesListBox);*/
 
         beveragesScrollList = new JScrollPane();
 
@@ -284,9 +273,9 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         displayChoicesBtn = new JButton("Display Choices");
 
         saveSelectionsBtn = new JButton("Save Selections");
-        saveSelectionsBtn.setEnabled(false);
+        
         clearDisplayBtn = new JButton("Clear Display");
-        clearDisplayBtn.setEnabled(false);
+        
         quitBtn = new JButton("Quit");
 
         displayChoicesBtn.addActionListener(this::actionPerformed);
@@ -380,6 +369,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
     private void saveSelectionBtnClickedAction() throws SQLException
     {
         // TODO Auto-generated method stub
+        displayChoiceBtnClickedAction();
         errorMessage("User Data Stored Successfully!!!");
         dbConn.insertDataInUserFood(userName, selectedFoodList);
     }
@@ -426,9 +416,6 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
 
         setMiddlePanel();
 
-        displayChoicesBtn.setEnabled(true);
-        saveSelectionsBtn.setEnabled(false);
-        clearDisplayBtn.setEnabled(false);
         this.pack();
 
     }
@@ -457,7 +444,6 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
     {
 
         selectedFoodList.clear();
-        saveSelectionsBtn.setEnabled(true);
 
         userName = userNameTxt.getText().trim();
         cerealsValue = cerealsListBox.getSelectedValuesList();
@@ -538,9 +524,6 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
      */
     private void displayData()
     {
-        clearDisplayBtn.setEnabled(true);
-        displayChoicesBtn.setEnabled(false);
-        userNameTxt.setEditable(false);
         middlePanel.removeAll();
 
         String dataHeader[] = {
@@ -576,7 +559,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         {
             TableColumn columnOfTable = dataTable.getColumnModel()
                     .getColumn(columnNumber);
-            columnOfTable.setHeaderRenderer(new HeaderRenderer());
+
             int columnHeaderWidth = getColumnHeaderWidth(columnNumber);
             int columnDataWidth = getColumnDataWidth(columnNumber);
             int preferredWidth = Math.max(columnHeaderWidth, columnDataWidth);
@@ -668,20 +651,6 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         return String.format("%.2f", total);
     }
 
-    /*
-     * Removes header gird from the table
-     */
-    class HeaderRenderer extends JLabel implements TableCellRenderer
-    {
-        public Component getTableCellRendererComponent(JTable dataTable,
-                                                       Object value, boolean hasFocus, boolean isSelected, int row,
-                                                       int col)
-        {
-            setText(value.toString());
-            setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
-            return this;
-        }
-    }
 
     /*
      * Calculated the width based on the column name
