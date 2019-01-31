@@ -4,17 +4,21 @@ import java.util.Comparator;
 import java.util.List;
 
 /*
- * Inherited class Item in this class
+ * This class extends the Item class, and Inherited all properties of super
+ * class in it. It also has additional property in it.
  */
 public class ProcessedFood extends Item
 {
 
+    // declaration of variable and an ArrayList of Nutrient objects to store the
+    // nutrient details.
     private Integer foodId;
     private String brandName;
     private Integer serveSize;
     private String serveUnit;
     private List<Nutrient> nutrient;
 
+    // Default constructor
     public ProcessedFood()
     {
         super();
@@ -46,6 +50,7 @@ public class ProcessedFood extends Item
         nutrient = processedFood.nutrient;
     }
 
+    // accessor and mutator methods
     public Integer getFoodId()
     {
         return foodId;
@@ -91,6 +96,11 @@ public class ProcessedFood extends Item
         return nutrient;
     }
 
+    public void setNutrient(List<Nutrient> nutrient)
+    {
+        this.nutrient = nutrient;
+    }
+
     public Float getSelectedNutrient(List<Nutrient> nutrientList,
             String nutrientName)
     {
@@ -104,6 +114,7 @@ public class ProcessedFood extends Item
         return 0.0f;
     }
 
+    // This method will give value of selected nutrient name
     public String getSelectedNutrientInString(List<Nutrient> nutrientList,
             String nutrientName)
     {
@@ -111,24 +122,25 @@ public class ProcessedFood extends Item
                 getSelectedNutrient(nutrientList, nutrientName));
     }
 
-    public void setNutrient(List<Nutrient> nutrient)
-    {
-        this.nutrient = nutrient;
-    }
-
+    /*
+     * comparator has been used to compare two records , we are comparing values
+     * of sugar to sort data as per user preference High protien .
+     */
     public static Comparator<ProcessedFood> sortByHighProtien = new Comparator<ProcessedFood>()
     {
         @Override
         public int compare(ProcessedFood o1, ProcessedFood o2)
         {
-            Float o1Float = o1.getSelectedNutrient(o1.getNutrient(), Nutrient.PROTEIN_GM);
-            Float o2Float = o2.getSelectedNutrient(o2.getNutrient(), Nutrient.PROTEIN_GM);
+            Float o1Float = o1.getSelectedNutrient(o1.getNutrient(),
+                    Nutrient.PROTEIN_GM);
+            Float o2Float = o2.getSelectedNutrient(o2.getNutrient(),
+                    Nutrient.PROTEIN_GM);
 
-            if(o1Float > o2Float)
+            if (o1Float > o2Float)
             {
                 return -1;
             }
-            if(o1Float < o2Float)
+            if (o1Float < o2Float)
             {
                 return 1;
             }
@@ -136,20 +148,26 @@ public class ProcessedFood extends Item
         }
     };
 
+    /*
+     * comparator has been used to compare two records , we are comparing values
+     * of sugar to sort data as per user preference low suger .
+     */
     public static Comparator<ProcessedFood> sortByLowSugar = new Comparator<ProcessedFood>()
     {
         @Override
         public int compare(ProcessedFood o1, ProcessedFood o2)
         {
 
-            Float o1Float = o1.getSelectedNutrient(o1.getNutrient(), Nutrient.SUGAR_GM);
-            Float o2Float = o2.getSelectedNutrient(o2.getNutrient(), Nutrient.SUGAR_GM);
+            Float o1Float = o1.getSelectedNutrient(o1.getNutrient(),
+                    Nutrient.SUGAR_GM);
+            Float o2Float = o2.getSelectedNutrient(o2.getNutrient(),
+                    Nutrient.SUGAR_GM);
 
-            if(o1Float > o2Float)
+            if (o1Float > o2Float)
             {
                 return 1;
             }
-            if(o1Float < o2Float)
+            if (o1Float < o2Float)
             {
                 return -1;
             }
@@ -157,15 +175,13 @@ public class ProcessedFood extends Item
         }
     };
 
+    // toString() method of class.
     @Override
     public String toString()
     {
-        return "ProcessedFood{" +
-                "foodId=" + foodId +
-                ", brandName='" + brandName + '\'' +
-                ", serveSize=" + serveSize +
-                ", serveUnit='" + serveUnit + '\'' +
-                ", nutrient=" + nutrient +
-                "} " + super.toString();
+        return "ProcessedFood{" + "foodId=" + foodId + ", brandName='"
+               + brandName + '\'' + ", serveSize=" + serveSize + ", serveUnit='"
+               + serveUnit + '\'' + ", nutrient=" + nutrient + "} "
+               + super.toString();
     }
 }

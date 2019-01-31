@@ -1,8 +1,15 @@
 package ausAssignment.assignment4;
 
+/*
+ * This class stores the nutrient name and nutrient amount.
+ */
 public class Nutrient
 {
-    public static final String ENERGY_KG ="energyKg";
+    /*
+     * Constants has been declared to maintain the list of different types of
+     * nutrients
+     */
+    public static final String ENERGY_KG = "energyKg";
     public static final String PROTEIN_GM = "proteinGm";
     public static final String FAT_GM = "fatGm";
     public static final String CARBOHYDRATE_GM = "carbohydrateGm";
@@ -10,14 +17,18 @@ public class Nutrient
     public static final String DIETARY_FIBRE = "dietaryFibre";
     public static final String SODIUM_MG = "sodiumMg";
 
+    /*
+     * variable declaration
+     */
     private String nutrientName;
     private Float nutrientAmount;
 
+    // Default constructor
     public Nutrient()
     {
-        // TODO Auto-generated constructor stub
     }
 
+    // Parameterised constructor
     public Nutrient(String nutrientName, Float nutrientAmount)
     {
         super();
@@ -25,6 +36,7 @@ public class Nutrient
         this.nutrientAmount = nutrientAmount;
     }
 
+    // Accessor and mutator methods for given variables
     public String getNutrientName()
     {
         return nutrientName;
@@ -45,6 +57,7 @@ public class Nutrient
         this.nutrientAmount = nutrientAmount;
     }
 
+    // to String method for class
     @Override
     public String toString()
     {

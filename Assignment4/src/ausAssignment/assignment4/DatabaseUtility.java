@@ -9,6 +9,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * This class will create database connection and contains method that will
+ * create database and tables if its not present in database. It also contains
+ * method to perform create record or read record operation on database tables.
+ */
 public class DatabaseUtility
 {
     // JDBC driver name and database URL
@@ -24,15 +29,18 @@ public class DatabaseUtility
     static Statement stmt = null;
     static PreparedStatement psStmt = null;
 
+    /*
+     * Default constructor that will verify create database connection and
+     * create database and its tables if they are not available in the system.
+     */
     public DatabaseUtility()
     {
         try
         {
-
-            // STEP 2: Register JDBC driver
+            // Register JDBC driver
             Class.forName(JDBC_DRIVER);
 
-            // STEP 3: Open a connection
+            // Open a connection
             System.out.println("Connecting to database...");
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
@@ -41,8 +49,6 @@ public class DatabaseUtility
             conn.setCatalog(DB_NAME);
             // Create tables in database if they do not exist
             createTables();
-            getListoffood();
-
         }
         catch (SQLException se)
         {
@@ -56,6 +62,9 @@ public class DatabaseUtility
         }
     }
 
+    /*
+     * Will Create database only if it does not exist in the system
+     */
     private static void createDatabase() throws SQLException
     {
         System.out.println("Creating database...");
@@ -64,15 +73,17 @@ public class DatabaseUtility
 
         stmt = conn.createStatement();
 
-        // STEP 4: Execute a query
+        // Execute a query
         stmt.executeUpdate(sql_stmt);
 
         System.out.println("PFSADB has successfully been created");
     }
 
+    /*
+     * Creates all database tables if it is not available in the system
+     */
     private static void createTables() throws SQLException
     {
-        // TODO Auto-generated method stub
         // Create table Food
         String foodTableSql = "CREATE TABLE IF NOT EXISTS Food (\n"
                               + "  foodId INT NOT NULL AUTO_INCREMENT,\n"
@@ -85,8 +96,6 @@ public class DatabaseUtility
 
         stmt = conn.createStatement();
         stmt.executeUpdate(foodTableSql);
-//		System.out.println("foodTableSql:::" + foodTableSql);
-        System.out.println("Food table has successfully been created");
 
         // Create table Nutrient
         String nutrientTableSql = "CREATE TABLE IF NOT EXISTS Nutrient (\n"
@@ -101,8 +110,6 @@ public class DatabaseUtility
 
         stmt = conn.createStatement();
         stmt.executeUpdate(nutrientTableSql);
-        // System.out.println("nutrientTableSql:::" + nutrientTableSql);
-        System.out.println("Nutrient table has successfully been created");
 
         // Create table User
         String userTableSql = "CREATE TABLE IF NOT EXISTS User (\n"
@@ -112,8 +119,6 @@ public class DatabaseUtility
 
         stmt = conn.createStatement();
         stmt.executeUpdate(userTableSql);
-        // System.out.println("userTableSql:::" + userTableSql);
-        System.out.println("User table has successfully been created");
 
         // Create table User_food
         String userFoodTableSql = "CREATE TABLE IF NOT EXISTS User_food (\n"
@@ -134,10 +139,13 @@ public class DatabaseUtility
 
         stmt = conn.createStatement();
         stmt.executeUpdate(userFoodTableSql);
-        // System.out.println("userFoodTableSql:::" + userFoodTableSql);
-        System.out.println("User_food table has successfully been created");
+
+        System.out.println("Database table has successfully been created!");
     }
 
+    /*
+     * insert all records of the loaded from csv file in to database table Food.
+     */
     public void insertDataInProcessedFood(List<ProcessedFood> itemList)
             throws SQLException
     {
@@ -163,6 +171,9 @@ public class DatabaseUtility
         }
     }
 
+    /*
+     * return the index of last food record inserted in table.
+     */
     public ProcessedFood getLastProcessedFoodEntry()
     {
         ProcessedFood processedFood = new ProcessedFood();
@@ -174,14 +185,21 @@ public class DatabaseUtility
             doResultSetToProcessedFoodMapping(processedFood, rs);
             rs.close();
         }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
         catch (Exception e)
         {
-
+            e.printStackTrace();
         }
 
         return processedFood;
     }
 
+    /*
+     * set the retrived data in object.
+     */
     void doResultSetToProcessedFoodMapping(ProcessedFood processedFood,
             ResultSet rs)
     {
@@ -197,12 +215,40 @@ public class DatabaseUtility
                 processedFood.setServeUnit(rs.getString("serveUnit"));
             }
         }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
         catch (Exception e)
         {
-
+            e.printStackTrace();
         }
     }
 
+    /*
+     * This method will insert list of nutrients with reference of food record
+     * available in Food
+     */
+    public void insertNutrientDetailsForFood(Integer id,
+            List<Nutrient> nutrient) throws SQLException
+    {
+
+        String insertNutrientQuery = " INSERT INTO Nutrient VALUES (?,?,?)";
+
+        for (Nutrient nutrient2 : nutrient)
+        {
+            psStmt = conn.prepareStatement(insertNutrientQuery);
+            psStmt.setInt(1, id);
+            psStmt.setString(2, nutrient2.getNutrientName());
+            psStmt.setFloat(3, nutrient2.getNutrientAmount());
+            psStmt.executeUpdate();
+        }
+
+    }
+
+    /*
+     * general method used to execute all select statements.
+     */
     ResultSet getData(String query)
     {
         ResultSet rs = null;
@@ -211,13 +257,22 @@ public class DatabaseUtility
             psStmt = conn.prepareStatement(query);
             rs = psStmt.executeQuery(query);
         }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
         catch (Exception e)
         {
-
+            e.printStackTrace();
         }
         return rs;
     }
 
+    /*
+     * This method will varify that user already registered in the system or not
+     * if its not available in the system then it will register new user or else
+     * says its already registered in the system.
+     */
     public void insertDataInUserData(String userName) throws SQLException
     {
         String checkUserQuery = "select * from User where name = '" + userName
@@ -236,6 +291,9 @@ public class DatabaseUtility
         }
     }
 
+    /*
+     * This method will stores the reference of user and selected food items.
+     */
     public void insertDataInUserFood(String user,
             List<ProcessedFood> selectedFoodList) throws SQLException
     {
@@ -257,26 +315,9 @@ public class DatabaseUtility
             psStmt.executeUpdate();
         }
         rs3.close();
-        System.out.println("Inser user and food method");
     }
 
-    public void insertNutrientDetailsForFood(Integer id,
-            List<Nutrient> nutrient) throws SQLException
-    {
-
-        String insertNutrientQuery = " INSERT INTO Nutrient VALUES (?,?,?)";
-
-        for (Nutrient nutrient2 : nutrient)
-        {
-            psStmt = conn.prepareStatement(insertNutrientQuery);
-            psStmt.setInt(1, id);
-            psStmt.setString(2, nutrient2.getNutrientName());
-            psStmt.setFloat(3, nutrient2.getNutrientAmount());
-            psStmt.executeUpdate();
-        }
-
-    }
-
+    // get list of records from database
     public List<ProcessedFood> getListoffood()
     {
         List<ProcessedFood> foodList = new ArrayList<>();
@@ -311,8 +352,34 @@ public class DatabaseUtility
         }
         catch (SQLException e)
         {
-
+            e.printStackTrace();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
         return foodList;
     }
+
+    /*
+     * This method will update Index of Food to 1001 from 0.
+     */
+    public void updateIndexofFood()
+    {
+        String TABLE_SET_FIRST_FOOD_ID = "ALTER TABLE Food AUTO_INCREMENT = 1001";
+        try
+        {
+            stmt.executeUpdate(TABLE_SET_FIRST_FOOD_ID);
+            System.out.println("Index of food table is set to 1001");
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
 }// end JDBCExample

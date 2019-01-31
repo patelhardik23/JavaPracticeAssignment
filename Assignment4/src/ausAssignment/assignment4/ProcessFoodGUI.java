@@ -16,6 +16,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/*
+ * This class have all the GUI components as per given instructions. It will
+ * initialize the GUI components and have the event handling methods that will
+ * guide user for input and enable the appropriate user interactions. It stores
+ * the data file name, and will create the object of DataFile and takes file
+ * name as argument that invokes its method to read and load the data in to list
+ * from the file. It also creates a Database object and invokes appropriate
+ * methods so that user can store data in database and perform necessary
+ * operation as per requirement. It has main method that starts the application.
+ */
 public class ProcessFoodGUI extends JFrame implements ActionListener
 {
     ProcessedFood selectedIteam = null;
@@ -73,7 +83,7 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
     public void intializeGUI()
     {
         this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
-        // this.setLayout(new FlowLayout());
+
         topPanel = new JPanel();
         middlePanel = new JPanel();
         bottomPanel = new JPanel();
@@ -303,22 +313,8 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         }
         else if (e.getSource() == lowSugurRbtn)
         {
-            /*
-             * System.out.println("Before Sorting"); foodList.stream().forEach(a
-             * -> System.out.println(a.getName() + " : " +
-             * a.getSelectedNutrient(a.getNutrient(),
-             * DataFile.CONSTANTS.PROTEIN_GM.getValue())));
-             */
-
             Collections.sort(foodList, ProcessedFood.sortByLowSugar);
             reFillScrollLists();
-
-            /*
-             * System.out.println("After Sorting"); foodList.stream().forEach(a
-             * -> System.out.println(a.getName() + " : " +
-             * a.getSelectedNutrient(a.getNutrient(),
-             * DataFile.CONSTANTS.PROTEIN_GM.getValue())));
-             */
         }
         else if (e.getSource() == highProtinRbtn)
         {
@@ -349,6 +345,10 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
                 saveSelectionBtnClickedAction();
             }
             catch (SQLException e1)
+            {
+                e1.printStackTrace();
+            }
+            catch (Exception e1)
             {
                 e1.printStackTrace();
             }
@@ -419,7 +419,6 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         beveragesValue = null;
         selectedIteam = null;
 
-        userNameTxt.setEditable(true);
         userNameTxt.setText(null);
         group.clearSelection();
         cerealsListBox.clearSelection();
@@ -526,11 +525,12 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
             try
             {
                 dbConn.insertDataInUserData(userName);
-                System.out.println("UserName:::" + userName + ":::Preference:::"
-                                   + Preference);
-
             }
             catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+            catch (Exception e)
             {
                 e.printStackTrace();
             }
@@ -552,8 +552,6 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
             {
                 tableModel.addRow(convertProcessedFoodToTableRow(selectedFood)
                         .toArray(new String[0]));
-
-                System.out.println("SelectedFood::::" + selectedFood);
             }
             tableModel
                     .addRow(setTotal(selectedFoodList).toArray(new String[0]));
@@ -731,9 +729,10 @@ public class ProcessFoodGUI extends JFrame implements ActionListener
         foodList = dbConn.getListoffood();
         if (foodList.isEmpty())
         {
-            new DataFile(dataFileName, foodList);
+            dbConn.updateIndexofFood();
+            new DataFile(dataFileName);
+            foodList = dbConn.getListoffood();
         }
         new ProcessFoodGUI();
-        new DatabaseUtility();
     }
 }
